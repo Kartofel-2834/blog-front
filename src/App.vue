@@ -1,26 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <blog-hat :user="user"></blog-hat>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import UserBlogHat from '@/components/UserBlogHat.vue'
+
+let testUser = {
+  name: "Kamal",
+  surname: "Demirov",
+  tag: "@ananlniykudesnik",
+  description: "Some information about this person",
+  followers: 30,
+  posts: [ "1", "2", "3" ],
+}
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
+    "blog-hat": UserBlogHat,
+  },
+
+  data(){
+    return {
+      user: testUser,
+    }
+  },
+
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
