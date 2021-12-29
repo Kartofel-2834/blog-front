@@ -5,9 +5,7 @@
     </div>
 
     <div class="user_info column align">
-      <div class="avatar_inner align center">
-        <img :src="'/img/' + user.avatar.filename" class="avatar">
-      </div>
+      <avatar :img_src="'/img/' + user.avatar.filename" :frame_classes="['column', 'align']"></avatar>
 
       <div class="user_text_info column">
         <div class="user_name">{{ user.name + ' ' + user.surname }}</div>
@@ -26,12 +24,14 @@
 
 <script type="text/javascript">
   import StatisticViewer from "./UserStatisticViewer.vue"
+  import Avatar from "@/components/Avatar.vue"
 
   export default {
     props: { "user": { type: Object, default: {} } },
 
     components: {
       "stat-view": StatisticViewer,
+      "avatar": Avatar,
     }
   }
 </script>

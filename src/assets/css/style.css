@@ -4,6 +4,10 @@
   color: #1c1c1c;
 }
 
+body{
+  background-color: #f4f4f4;
+}
+
 .row{ display: flex }
 
 .column{
@@ -26,9 +30,15 @@
   justify-content: space-between;
 }
 
+.space_around{
+  display: flex;
+  justify-content: space-around;
+}
+
 .user_header{
   width: 100%;
   overflow: hidden;
+  margin-bottom: 10%;
 }
 
 .user_hat_inner{
@@ -51,7 +61,6 @@
   height: 15vw;
   border-radius: 100%;
   overflow: hidden;
-  border: 3px solid #1c1c1c;
   box-shadow: 0px 0px 12px 2px rgba(34, 60, 80, 0.2);
 }
 
@@ -96,4 +105,49 @@
   font-weight: 500;
   margin-top: 0.2rem;
   font-size: 1.1rem;
+}
+
+.container{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.post{
+  background-color: white;
+  padding: 1.5rem 3rem;
+  border-radius: 12px;
+  margin-bottom: 3rem;
+  font-size: 1.3rem;
+}
+
+.short_avatar_inner{
+  width: 8vw;
+  height: 8vw;
+}
+
+.post_owner_short_info{
+  margin: 1rem 0;
+}
+
+.post_owner_name{
+  cursor: pointer;
+  padding: 0 1rem;
+  font-weight: 600;
+}
+
+.post_owner_tag{
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.publication_date{
+  margin-left: 1rem;
+}
+
+.post_text{
+  margin: 2rem 0;
+}
+
+.post_image{
+  border-radius: 12px;
 }
