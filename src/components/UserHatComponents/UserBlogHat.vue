@@ -1,12 +1,12 @@
 <template>
   <div class="user_header">
     <div class="user_hat_inner align center">
-      <img src="@/assets/user_hats/rei_swimming.jpg" class="user_hat">
+      <img :src="'/img/' + user.hatPic.filename" class="user_hat">
     </div>
 
     <div class="user_info column align">
       <div class="avatar_inner align center">
-        <img src="@/assets/avatars/test_avatar.jpg" class="avatar">
+        <img :src="'/img/' + user.avatar.filename" class="avatar">
       </div>
 
       <div class="user_text_info column">
