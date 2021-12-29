@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import UserBlogHat from '@/components/UserBlogHat.vue'
+import UserBlogHat from '@/components/UserHatComponents/UserBlogHat.vue'
 
 let testUser = {
   name: "Kamal",

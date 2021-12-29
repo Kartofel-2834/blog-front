@@ -15,15 +15,8 @@
         <div class="user_description">{{ user.description }}</div>
 
         <div class="user_stats space_between">
-          <div class="user_stat_el column align">
-            <div class="user_stat_count">{{ user.followers }}</div>
-            <div class="user_stat_name">Followers</div>
-          </div>
-
-          <div class="user_stat_el column align">
-            <div class="user_stat_count">{{ user.posts.length }}</div>
-            <div class="user_stat_name">Posts</div>
-          </div>
+          <stat-view title="Followers" :count="user.followers"></stat-view>
+          <stat-view title="Posts" :count="user.posts.length"></stat-view>
         </div>
       </div>
 
@@ -32,9 +25,13 @@
 </template>
 
 <script type="text/javascript">
+  import StatisticViewer from "./UserStatisticViewer.vue"
+
   export default {
-    props: {
-      "user": { type: Object, default: {} },
-    },
+    props: { "user": { type: Object, default: {} } },
+
+    components: {
+      "stat-view": StatisticViewer,
+    }
   }
 </script>
