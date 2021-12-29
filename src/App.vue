@@ -37,7 +37,7 @@
       owner_id: "123456",
       id: "111111",
       text: "Скоро выходит 41й том Берсерка, первый после смерти Миуры. Ждем.",
-      date: Date.now() - 100_000,
+      date: Date.now() - 100000,
       images: [
         { post_id: "111111", filename: "berserk.png" },
       ],

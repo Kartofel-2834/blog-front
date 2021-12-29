@@ -32,6 +32,6 @@
     components: {
       "stat-view": StatisticViewer,
       "avatar": Avatar,
-    }
+    },
   }
 </script>
