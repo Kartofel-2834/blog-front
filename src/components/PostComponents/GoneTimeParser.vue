@@ -1,5 +1,5 @@
 <template>
-  <div class="publication_date" :class="css_classes">{{ goneTimeParser() }}</div>
+  <div class="publication_date" :class="css_classes">{{ goneTimeParser }}</div>
 </template>
 
 <script>
@@ -18,10 +18,10 @@
   export default {
     props: {
       "css_classes": { type: Array, default: [] },
-      "date": { type: Date, default: new Date() }
+      "date": { type: Number, default: Date.now() }
     },
 
-    methods:{
+    computed:{
       goneTimeParser(){
         let delay = Date.now() - this.date
         let timeTypes = [ 'years', 'months', 'days', 'hours', 'minutes', 'seconds' ]

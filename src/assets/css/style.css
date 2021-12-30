@@ -145,9 +145,70 @@ body{
 }
 
 .post_text{
+  width: fit-content;
+  max-width: 100%;
   margin: 2rem 0;
 }
 
-.post_image{
-  border-radius: 12px;
+.post_images_inner{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.main_image_inner, .half_image_inner{
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.main_image{
+  border-radius: 8px;
+  max-height: 70vh;
+  max-width: -webkit-fill-available;
+}
+
+.image_in_frame{
+  border-radius: 8px;
+  height: 70vh;
+  width: auto;
+}
+
+.half_image_inner, .bottom_image_inner{
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.half_image_inner{
+  max-width: -webkit-fill-available;
+}
+
+.half_image_inner:first-child{ margin-right: 1rem }
+
+.bottom_image_inner{
+  margin-top: 1rem;
+  border-radius: 8px;
+}
+
+.third_image_inner{
+  width: 32%;
+  height: 30vh;
+}
+
+.third_image{
+  min-width: 100%;
+  min-height: 30vh;
+  height: auto;
+  border-radius: 8px;
+}
+
+.second_image_inner{
+  width: 48%;
+  height: 40vh;
+}
+
+.second_image{
+  min-width: 100%;
+  min-height: 40vh;
 }

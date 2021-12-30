@@ -23,4 +23,5 @@ pnpm-debug.log*
 *.sw?
 /src/assets/avatars
 /src/assets/user_hats
+/src/assets/img
 .gitignore

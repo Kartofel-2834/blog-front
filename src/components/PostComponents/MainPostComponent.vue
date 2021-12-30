@@ -17,13 +17,15 @@
     </div>
 
     <div class="post_text">{{ post.text }}</div>
-    <img :src="'/img/' + post.images[0].filename" class="post_image">
+
+    <image-block :images="post.images"></image-block>
   </div>
 </template>
 
 <script>
   import Avatar from "@/components/Avatar.vue"
   import GoneTimeParser from "./GoneTimeParser.vue"
+  import ImageBlock from "./ImageBlock.vue"
 
   export default {
     props: {
@@ -37,6 +39,7 @@
     components: {
       "avatar": Avatar,
       "gone-time-parser": GoneTimeParser,
+      "image-block": ImageBlock,
     },
   }
 </script>

@@ -12,7 +12,6 @@
     ></post-block>
 
     <!--<img src="@/assets/user_hats/rei_swimming.jpg">-->
-
   </div>
 </template>
 
@@ -27,14 +26,39 @@
       text: "Скоро выходит 41й том Берсерка, первый после смерти Миуры. Ждем.",
       date: Date.now() - 100000,
       images: [
-        { post_id: "111111", filename: "berserk.png" },
+        { id: "987126", post_id: "111111", filename: "berserk.png", ext: "png" },
       ],
-    }
+    },
+
+    {
+      owner_id: "123456",
+      id: "222222",
+      text: "Просто фото котят",
+      date: Date.now() - 10000000,
+      images: [
+        { id: "236455", post_id: "222222", filename: "kitten_1.jpg", ext: "jpg" },
+        { id: "368722", post_id: "222222", filename: "kitten_2.jpg", ext: "jpg" },
+        { id: "386821", post_id: "222222", filename: "kitten_3.jpg", ext: "jpg" },
+        { id: "615379", post_id: "222222", filename: "kitten_4.jpg", ext: "jpg" },
+      ],
+    },
+
+    {
+      owner_id: "123456",
+      id: "333333",
+      text: "Let's celebrate and suck some dick",
+      date: Date.now() - 100000000,
+      images: [
+        { id: "683682", post_id: "222222", filename: "gachi_1.jpg", ext: "jpg" },
+        { id: "157926", post_id: "222222", filename: "gachi_2.jpg", ext: "jpg" },
+        { id: "987642", post_id: "222222", filename: "gachi_3.jpg", ext: "jpg" },
+      ],
+    },
   ]
 
-  let testAvatar = { owner_id: "123456", id: "321654", filename: "test_avatar.jpg" }
+  let testAvatar = { owner_id: "123456", id: "321654", filename: "test_avatar.jpg", ext: "jpg" }
 
-  let testHatPic = { owner_id: "123456", id: "654321", filename: "rei_swimming.jpg" }
+  let testHatPic = { owner_id: "123456", id: "654321", filename: "rei_swimming.jpg", ext: "jpg" }
 
   let testUser = {
     id: "123456",
