@@ -11,21 +11,9 @@
       :post="postObj"
     ></post-block>
 
+    <!--<img src="@/assets/user_hats/rei_swimming.jpg">-->
+
   </div>
-
-
-  <!--
-    <div class="post column" v-for="post in user.posts">
-    <div class="post_owner_short_info">
-      <div>{{ user.name }} {{ user.surname }}</div>
-      <div>{{ user.tag }}</div>
-      <div>{{ post.date }}</div>
-    </div>
-
-    <div class="post_text">{{ post.text }}</div>
-    <img :src="'/img/' + post.images[0].filename" alt="">
-  </div>
-  -->
 </template>
 
 <script>
