@@ -46,7 +46,6 @@ body{
 .user_header{
   width: 100%;
   overflow: hidden;
-  margin-bottom: 10%;
 }
 
 .user_hat_inner{
@@ -115,6 +114,27 @@ body{
   font-size: 1.1rem;
 }
 
+.central_button{
+  margin: 3rem auto;
+  width: fit-content;
+  background-color: #6cd8e6;
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  cursor: pointer;
+  border: 3px solid #6cd8e6;
+  transition: 0.15s linear;
+}
+
+.central_button:hover{
+  color: #6cd8e6;
+  background-color: white;
+  transform: scale(1.05);
+}
+
 .container{
   width: 80%;
   margin: 0 auto;
@@ -126,6 +146,7 @@ body{
   border-radius: 12px;
   margin-bottom: 3rem;
   font-size: 1.3rem;
+  box-shadow: 0px 4px 11px 1px rgb(34 60 80 / 10%)
 }
 
 .short_avatar_inner{
@@ -306,4 +327,84 @@ body{
 .short_galery_nav_button{
   width: auto;
   height: 100%;
+}
+
+.post_creation_field{
+  position: fixed;
+  z-index: 20;
+  top:0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  height: 100vh;
+  background-color: white;
+  transition: 0.2s linear;
+}
+
+.post_creation_field_hided{
+  transform: translate(0, -100vh);
+}
+
+.new_post_top_nav{
+  width: 100%;
+  max-height: 15vh;
+  background-color: #58bac6;
+}
+
+.post_field_title{
+  width: fit-content;
+  padding: 1.5rem 1rem;
+  font-size: 1.7rem;
+  color: white;
+  font-weight: 700;
+}
+
+.new_post_text_input{
+  outline: none;
+  resize: none;
+  border: none;
+
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  font-size: 1.2rem;
+  padding: 2.5rem;
+}
+
+.clipped_files_inner{
+  background-color: #dadada;
+  max-width: 100%;
+  max-height: 15%;
+  width: 100%;
+  height: 18vh;
+  overflow: hidden;
+}
+
+.post_button{
+  padding: 2%;
+  height: -webkit-fill-available;
+  min-width: 1.5rem;
+  background-color: #58bac6 !important;
+  cursor: pointer;
+  transition: 0.15s linear;
+}
+
+.post_button:hover{
+  background-color: #72c9d3;
+}
+
+.close_button{
+  height: auto;
+  background: no-repeat center/35%;
+  background-image: url("~@/assets/icons/close.svg");
+}
+
+.check_button{
+  height: auto;
+  background: no-repeat center/35%;
+  background-image: url("~@/assets/icons/check.svg");
+}
+
+.clip_button{
+  background: no-repeat center/50%;
+  background-image: url("~@/assets/icons/clip.svg");
 }

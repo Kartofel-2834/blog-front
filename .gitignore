@@ -24,4 +24,5 @@ pnpm-debug.log*
 /src/assets/avatars
 /src/assets/user_hats
 /src/assets/img
+/src/assets/icons
 .gitignore

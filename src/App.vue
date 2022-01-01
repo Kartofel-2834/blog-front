@@ -9,6 +9,13 @@
 
   <blog-hat :user="user"></blog-hat>
 
+  <central-button @click="showPostCreationField"></central-button>
+
+  <post-creation-field
+    :hide_field_method="hidePostCreationField"
+    :hided="postCreationFieldHided"
+  ></post-creation-field>
+
   <div class="container">
     <post-block
       v-for="postObj in user.posts"
@@ -29,6 +36,8 @@
   import UserBlogHat from '@/components/UserHatComponents/UserBlogHat.vue'
   import PostComponent from '@/components/PostComponents/MainPostComponent.vue'
   import FullScreenModeComponent from '@/components/FullScreenModeComponent.vue'
+  import CentralButton from '@/components/CentralButton.vue'
+  import PostCreationField from '@/components/PostCreationField.vue'
 
   let testPosts = [
     {
@@ -108,6 +117,8 @@
       "blog-hat": UserBlogHat,
       "post-block": PostComponent,
       "fullscreen-mode-component": FullScreenModeComponent,
+      "central-button": CentralButton,
+      "post-creation-field": PostCreationField,
     },
 
     data(){
@@ -118,12 +129,16 @@
           images: [],
           index: 0,
         },
+
+        postCreationFieldHided: true,
       }
     },
 
     methods: {
       fullscreenModeOn(){ this.fullscreen.isActive = true },
       fullscreenModeOff(){ this.fullscreen.isActive = false },
+
+
 
       selectImageGroup(images, start){
         this.fullscreen.images = images
@@ -133,6 +148,9 @@
       changeGaleryMainImage(index){
         this.fullscreen.index = index
       },
+
+      showPostCreationField(){ this.postCreationFieldHided = false },
+      hidePostCreationField(){ this.postCreationFieldHided = true },
     }
   }
 </script>
