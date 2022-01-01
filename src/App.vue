@@ -1,4 +1,12 @@
 <template>
+  <fullscreen-mode-component
+    :images="fullscreen.images"
+    :fullscreen_mode="fullscreen.isActive"
+    :method_for_close_fullscreen="fullscreenModeOff"
+    :index="fullscreen.index"
+    :image_change_method="changeGaleryMainImage"
+  ></fullscreen-mode-component>
+
   <blog-hat :user="user"></blog-hat>
 
   <div class="container">
@@ -9,6 +17,8 @@
       :owner_tag="user.tag"
       :owner_avatar_filename="user.avatar.filename"
       :post="postObj"
+      :method_for_open_fullscreen="fullscreenModeOn"
+      :select_image_group_method="selectImageGroup"
     ></post-block>
 
     <!--<img src="@/assets/user_hats/rei_swimming.jpg">-->
@@ -18,6 +28,7 @@
 <script>
   import UserBlogHat from '@/components/UserHatComponents/UserBlogHat.vue'
   import PostComponent from '@/components/PostComponents/MainPostComponent.vue'
+  import FullScreenModeComponent from '@/components/FullScreenModeComponent.vue'
 
   let testPosts = [
     {
@@ -36,10 +47,17 @@
       text: "Просто фото котят",
       date: Date.now() - 10000000,
       images: [
+        { id: "615379", post_id: "222222", filename: "kitten_4.jpg", ext: "jpg" },
         { id: "236455", post_id: "222222", filename: "kitten_1.jpg", ext: "jpg" },
         { id: "368722", post_id: "222222", filename: "kitten_2.jpg", ext: "jpg" },
         { id: "386821", post_id: "222222", filename: "kitten_3.jpg", ext: "jpg" },
-        { id: "615379", post_id: "222222", filename: "kitten_4.jpg", ext: "jpg" },
+        { id: "386821", post_id: "222222", filename: "kitten_5.jpg", ext: "jpg" },
+        { id: "386821", post_id: "222222", filename: "kitten_6.jpg", ext: "jpg" },
+        { id: "386821", post_id: "222222", filename: "kitten_7.jpg", ext: "jpg" },
+        { id: "386821", post_id: "222222", filename: "kitten_8.jpg", ext: "jpg" },
+        { id: "386821", post_id: "222222", filename: "kitten_9.jpg", ext: "jpg" },
+        { id: "386821", post_id: "222222", filename: "kitten_10.jpg", ext: "jpg" },
+        { id: "386821", post_id: "222222", filename: "kitten_11.jpg", ext: "jpg" },
       ],
     },
 
@@ -49,9 +67,20 @@
       text: "Let's celebrate and suck some dick",
       date: Date.now() - 100000000,
       images: [
-        { id: "683682", post_id: "222222", filename: "gachi_1.jpg", ext: "jpg" },
-        { id: "157926", post_id: "222222", filename: "gachi_2.jpg", ext: "jpg" },
-        { id: "987642", post_id: "222222", filename: "gachi_3.jpg", ext: "jpg" },
+        { id: "683682", post_id: "333333", filename: "gachi_1.jpg", ext: "jpg" },
+        { id: "157926", post_id: "333333", filename: "gachi_2.jpg", ext: "jpg" },
+        { id: "987642", post_id: "333333", filename: "gachi_3.jpg", ext: "jpg" },
+      ],
+    },
+
+    {
+      owner_id: "123456",
+      id: "444444",
+      text: null,
+      date: Date.now() - 1000000000,
+      images: [
+        { id: "298323", post_id: "444444", filename: "bleach_1.jpg", ext: "jpg" },
+        { id: "457687", post_id: "444444", filename: "bleach_2.jpg", ext: "jpg" },
       ],
     },
   ]
@@ -78,12 +107,32 @@
     components: {
       "blog-hat": UserBlogHat,
       "post-block": PostComponent,
+      "fullscreen-mode-component": FullScreenModeComponent,
     },
 
     data(){
       return {
         user: testUser,
+        fullscreen: {
+          isActive: false,
+          images: [],
+          index: 0,
+        },
       }
     },
+
+    methods: {
+      fullscreenModeOn(){ this.fullscreen.isActive = true },
+      fullscreenModeOff(){ this.fullscreen.isActive = false },
+
+      selectImageGroup(images, start){
+        this.fullscreen.images = images
+        this.changeGaleryMainImage(start)
+      },
+
+      changeGaleryMainImage(index){
+        this.fullscreen.index = index
+      },
+    }
   }
 </script>

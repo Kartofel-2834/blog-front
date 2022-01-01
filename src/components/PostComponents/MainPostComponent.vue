@@ -18,7 +18,11 @@
 
     <div class="post_text">{{ post.text }}</div>
 
-    <image-block :images="post.images"></image-block>
+    <image-block
+      :images="post.images"
+      :method_for_open_fullscreen="method_for_open_fullscreen"
+      :select_image_group_method="select_image_group_method"
+    ></image-block>
   </div>
 </template>
 
@@ -34,6 +38,8 @@
       "owner_surname": { type: String, default: "" },
       "owner_tag": { type: String, default: "" },
       "owner_avatar_filename": { type: String, default: "" },
+      "method_for_open_fullscreen": { type: Function, default: ()=>{} },
+      "select_image_group_method": { type: Function, default: ()=>{} },
     },
 
     components: {
