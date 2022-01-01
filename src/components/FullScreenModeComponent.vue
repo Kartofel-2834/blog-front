@@ -1,4 +1,9 @@
 <template>
+  <div class="hide">{{ setNavPages }}</div>
+  <div class="hide">{{ imageIndexControl }}</div>
+  <div class="hide">{{ pageIndexControl }}</div>
+
+
   <div
     v-if="images.length && images.length > 0"
     class="blackhole center align column"
@@ -29,12 +34,15 @@
     <div class="image_counter">{{ index+1 }} of {{ images.length }}</div>
 
     <galery-images-row
-      :images="images"
-      :image_change_method="image_change_method"
-      :index="index"
+      :pages="pages"
+      :next_page_method="nextPage"
+      :prev_page_method="prevPage"
+      :page_index="pageIndex"
+      :set_img_index_method="setImageIndex"
+      :fullscreen_mode="fullscreen_mode"
+      :img_index="imgIndex"
     ></galery-images-row>
   </div>
-
 </template>
 
 <script>
@@ -47,11 +55,15 @@
         "images": { type: Array, default: [] },
         "index": { type: Number, default: 0 },
         "image_change_method": { type: Function, default: ()=>{} },
+        "rowleng": { type: Number, default: 5 },
       },
 
       data(){
         return {
           blackholeClasses: new Set(),
+          pages: [],
+          pageIndex: 0,
+          imgIndex: 0,
         }
       },
 
@@ -60,20 +72,44 @@
       },
 
       methods:{
+        setImageIndex(imgIndex, pageIndex){
+          if (imgIndex == this.rowleng || imgIndex < 0){ return }
+          if (pageIndex == this.pages.length || pageIndex < 0){ return }
+          this.imgIndex = imgIndex
+          this.pageIndex = pageIndex
+        },
+
         nextImage(){
-          if ( this.index + 1 == this.images.length ){
-            this.image_change_method(0)
+          if ( this.imgIndex + 1 == this.pages[this.pageIndex].length ){
+            this.nextPage()
           } else {
-            this.image_change_method(this.index + 1)
+            this.imgIndex++
+          }
+        },
+
+        nextPage(){
+          if ( this.pageIndex+1 == this.pages.length ){
+            this.pageIndex = 0
+          } else {
+            this.pageIndex++
           }
         },
 
         prevImage(){
-          if ( this.index - 1 < 0 ){
-            this.image_change_method(this.images.length - 1)
+          if ( this.imgIndex - 1 < 0 ){
+            this.prevPage()
           } else {
-            this.image_change_method(this.index - 1)
+            this.imgIndex--
           }
+        },
+
+        prevPage(){
+          if ( this.pageIndex-1 > -1 ){
+            this.pageIndex--
+          } else {
+            this.pageIndex = this.pages.length-1
+          }
+
         },
 
         hideBlackhole(){
@@ -104,7 +140,34 @@
           }
 
           return Array.from(this.blackholeClasses)
+        },
+
+        setNavPages(){
+          let answer = []
+          let buff = []
+
+          for ( let img of this.images ){
+            if ( buff.length == this.rowleng ){
+              answer.push(buff)
+              buff = []
+            }
+
+            buff.push(img)
+          }
+
+          if ( buff.length > 0 ){ answer.push(buff) }
+
+          this.pages = answer
+        },
+
+        imageIndexControl(){
+          this.image_change_method(this.imgIndex+(this.pageIndex*5))
+        },
+
+        pageIndexControl(){
+          this.pageIndex = Math.floor(this.index/5)
+          this.imgIndex = this.index % 5
         }
-      }
+      },
   }
 </script>

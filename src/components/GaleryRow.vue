@@ -1,103 +1,82 @@
 <template>
-  <div class="hide">{{ setNavPages }}</div>
-  <div class="hide">{{ pageIndexControl }}</div>
+  <div class="hide">{{ ownPageIndexControl }}</div>
 
-  <div class="align">
-    <img
-      v-if="pages.length > 1"
-      src="@/assets/icons/arrow.svg"
-      class="galery_arrow left_arrow little_arrow"
-      name="blackholeContent"
-      @click="prevPage"
-    >
-
-    <div
-      class="galery_nav row"
-      v-if="images.length > 1"
-      v-for="pageInd in pages.length"
-      :class="{ 'hide': (pageInd-1) != pageIndex }"
-    >
-      <div
-        v-for="imgInd in pages[pageInd-1].length"
-        class="short_galery_nav_button_inner center align"
-        :class="{ 'short_galery_nav_button_inner_active': (pageIndex*rowleng)+(imgInd-1) == index }"
+    <div class="align">
+      <img
+        v-if="pages.length > 1"
+        src="@/assets/icons/arrow.svg"
+        class="galery_arrow left_arrow little_arrow"
+        name="blackholeContent"
+        @click="prevNavPage"
       >
-        <img
-          :src="'/img/' + pages[pageInd-1][imgInd-1].filename"
-          class="short_galery_nav_button"
-          name="blackholeContent"
-          @click="image_change_method((pageIndex*rowleng)+(imgInd-1))"
+
+      <div class="galery_nav row">
+        <div
+          v-for="ownImgIndex in pages[ownPageIndex].length"
+          class="short_galery_nav_button_inner center align"
+          style="color:white"
+          :class="{
+            'short_galery_nav_button_inner_active': (ownImgIndex-1) == img_index && ownPageIndex == page_index
+          }"
+          @click="set_img_index_method(ownImgIndex-1, ownPageIndex)"
         >
+          <img
+            :src="'/img/' + pages[ownPageIndex][ownImgIndex-1].filename"
+            class="short_galery_nav_button"
+            name="blackholeContent"
+          >
+        </div>
       </div>
+
+      <img
+        v-if="pages.length > 1"
+        src="@/assets/icons/arrow.svg"
+        class="galery_arrow right_arrow little_arrow"
+        name="blackholeContent"
+        @click="nextNavPage"
+      >
     </div>
 
-    <img
-      v-if="pages.length > 1"
-      src="@/assets/icons/arrow.svg"
-      class="galery_arrow right_arrow little_arrow"
-      name="blackholeContent"
-      @click="nextPage"
-    >
-  </div>
-<!--  :class="{ 'short_galery_nav_button_inner_active': index == i-1 }"-->
 </template>
 
 <script>
   export default {
     props: {
-      "images": { type: Array, default: [] },
-      "image_change_method": { type: Function, default: ()=>{} },
-      "index": { type: Number, default: 0 },
-      "rowleng": { type: Number, default: 5 },
+      "pages": { type: Array, default: [] },
+      "page_index": { type: Number, default: 0 },
+      "img_index": { type: Number, default: 0 },
+      "next_page_method": { type: Function, default: ()=>{} },
+      "prev_page_method": { type: Function, default: ()=>{} },
+      "set_img_index_method": { type: Function, default: ()=>{} },
+      "fullscreen_mode": { type: Boolean, default: false },
     },
 
     data(){
-      return {
-        pages: [],
-        pageIndex: 0,
-      }
+      return { ownPageIndex: this.page_index }
     },
 
-    methods: {
-      nextPage(){
-        if ( this.pageIndex+1 < this.pages.length ){
-          this.pageIndex++
+    methods:{
+      nextNavPage(){
+        if ( this.ownPageIndex+1 == this.pages.length ){
+          this.ownPageIndex = 0
         } else {
-          this.pageIndex = 0
+          this.ownPageIndex++
         }
       },
 
-      prevPage(){
-        if ( this.pageIndex-1 > -1 ){
-          this.pageIndex--
+      prevNavPage(){
+        if ( this.ownPageIndex-1 > -1 ){
+          this.ownPageIndex--
         } else {
-          this.pageIndex = this.pages.length-1
+          this.ownPageIndex = this.pages.length-1
         }
       },
     },
 
     computed: {
-      setNavPages(){
-        let answer = []
-        let buff = []
-
-        for ( let img of this.images ){
-          if ( buff.length == this.rowleng ){
-            answer.push(buff)
-            buff = []
-          }
-
-          buff.push(img)
-        }
-
-        if ( buff.length > 0 ){ answer.push(buff) }
-
-        this.pages = answer
-      },
-
-      pageIndexControl(){
-        this.pageIndex = Math.floor(this.index/this.rowleng)
-      },
-    },
+      ownPageIndexControl(){
+        if ( !this.fullscreen_mode ){ this.ownPageIndex = 0 }
+      }
+    }
   }
 </script>
