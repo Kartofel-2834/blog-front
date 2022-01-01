@@ -1,7 +1,7 @@
 <template>
   <div class="hide">{{ ownPageIndexControl }}</div>
 
-    <div class="align">
+    <div class="align" v-if="pages.length && pages.length > 0 && pages[0].length > 1">
       <img
         v-if="pages.length > 1"
         src="@/assets/icons/arrow.svg"

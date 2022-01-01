@@ -31,7 +31,7 @@
     </div>
 
 
-    <div class="image_counter">{{ index+1 }} of {{ images.length }}</div>
+    <div class="image_counter" v-if="images.length > 1">{{ index+1 }} of {{ images.length }}</div>
 
     <galery-images-row
       :pages="pages"
@@ -161,12 +161,12 @@
         },
 
         imageIndexControl(){
-          this.image_change_method(this.imgIndex+(this.pageIndex*5))
+          this.image_change_method(this.imgIndex+(this.pageIndex * this.rowleng))
         },
 
         pageIndexControl(){
-          this.pageIndex = Math.floor(this.index/5)
-          this.imgIndex = this.index % 5
+          this.pageIndex = Math.floor(this.index / this.rowleng)
+          this.imgIndex = this.index % this.rowleng
         }
       },
   }
