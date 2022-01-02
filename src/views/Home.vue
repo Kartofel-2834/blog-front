@@ -32,6 +32,8 @@
   </div>
 </template>
 
+<style src="@/assets/css/home.css"></style>
+
 <script>
   import UserBlogHat from '@/components/UserHatComponents/UserBlogHat.vue'
   import PostComponent from '@/components/PostComponents/MainPostComponent.vue'
