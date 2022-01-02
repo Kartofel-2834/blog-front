@@ -1,5 +1,5 @@
 <template>
-  <div class="central_button">New Post</div>
+  <div class="button">New Post</div>
 </template>
 
 <script>

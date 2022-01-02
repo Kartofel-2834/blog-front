@@ -2,7 +2,7 @@
   <div class="user_info_text_input_inner align">
     <div class="input_title column align" :class="{ 'input_title_active': focused }">{{ title }}:</div>
     <input
-      type="text"
+      :type="type"
       class="user_info_text_input"
       :class="css_classes"
       @blur="blurCheck"
@@ -15,6 +15,7 @@
 <script>
   export default {
     props: {
+      "type": { type: String, default: "text" },
       "title": { type: String, default: "Title" },
       "css_classes": { type: Array, default: [] },
       "blur_listener": { type: Function, default: ()=>{} },

@@ -73,27 +73,6 @@ body{
   font-size: 1.1rem;
 }
 
-.central_button{
-  margin: 3rem auto;
-  width: fit-content;
-  background-color: #6cd8e6;
-  color: white;
-  text-align: center;
-  border-radius: 8px;
-  font-weight: 600;
-  text-transform: uppercase;
-  padding: 1rem 2.5rem;
-  cursor: pointer;
-  border: 3px solid #6cd8e6;
-  transition: 0.15s linear;
-}
-
-.central_button:hover{
-  color: #6cd8e6;
-  background-color: white;
-  transform: scale(1.05);
-}
-
 .container{
   width: 80%;
   margin: 0 auto;

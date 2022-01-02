@@ -65,19 +65,25 @@ body{ background-color: #f4f4f4 }
   transition: 0.15s linear;
 }
 
-.central_button{
-  margin: 3rem auto;
-  width: fit-content;
-  background-color: #6cd8e6;
-  color: white;
-  text-align: center;
-  border-radius: 8px;
-  font-weight: 600;
-  text-transform: uppercase;
-  padding: 1rem 2.5rem;
+.password_input_inner{
+  margin-top: 2rem;
+}
+
+.change_password_input_type_button{
   cursor: pointer;
-  border: 3px solid #6cd8e6;
+  width: 3rem;
+  margin-left: 0.5rem;
+  border-radius: 36px;
+  background: no-repeat center/65%;
+  background-image: url("~@/assets/icons/eye.svg");
+  background-color: #b3b3b3;
+  opacity: 0.7;
   transition: 0.15s linear;
+}
+
+.change_password_input_type_button_active{
+  background-color: #6cd8e6;
+  opacity: 1;
 }
 
 .submit_button{
