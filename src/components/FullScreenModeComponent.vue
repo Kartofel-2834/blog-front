@@ -93,6 +93,8 @@
           } else {
             this.pageIndex++
           }
+
+          this.imgIndex = 0
         },
 
         prevImage(){
@@ -110,6 +112,7 @@
             this.pageIndex = this.pages.length-1
           }
 
+          this.imgIndex = this.pages[this.pageIndex].length - 1
         },
 
         hideBlackhole(){

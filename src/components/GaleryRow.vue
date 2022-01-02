@@ -1,5 +1,6 @@
 <template>
   <div class="hide">{{ ownPageIndexControl }}</div>
+  <div class="hide">{{ ownPageIndexToZero }}</div>
 
     <div class="align" v-if="pages.length && pages.length > 0 && pages[0].length > 1">
       <img
@@ -75,8 +76,12 @@
 
     computed: {
       ownPageIndexControl(){
+        this.ownPageIndex = this.page_index
+      },
+
+      ownPageIndexToZero(){
         if ( !this.fullscreen_mode ){ this.ownPageIndex = 0 }
-      }
+      },
     }
   }
 </script>
