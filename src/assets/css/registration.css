@@ -30,6 +30,11 @@ body{ background-color: #f4f4f4 }
   transition: 0.15s linear;
 }
 
+.error_title::after{
+  background-color: red;
+  width: 110% !important;
+}
+
 .inputs_inner{
   width: 100%;
   margin-top: 3rem;
