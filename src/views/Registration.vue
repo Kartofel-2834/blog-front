@@ -1,7 +1,7 @@
 <template>
   <div class="psevdo_body align center">
     <div class="reg_container column align">
-      <h1 class="title column align" :class="{ 'error_title': mainTitleError }">Registration</h1>
+      <h1 class="title column align" :class="{ 'error_title': errorWasFinded }">Registration</h1>
 
       <div class="inputs_inner column">
         <text-input-form
@@ -31,8 +31,11 @@
         <div class="row password_input_inner">
           <text-input-form
             title="Password"
+            :value="password.text"
             :type="passwordShowed ? 'text' : 'password'"
             :input_listener="passwordInputListener"
+            :placeholder="password.placeholder"
+            :title_classes="[ password.error ? 'error_title' : '' ]"
           ></text-input-form>
 
           <div
@@ -61,6 +64,21 @@
 <script>
   import TextInput from "@/components/TextInput.vue"
 
+  async function jsonPostRequest(url, data){
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers:{ 'Content-Type': 'application/json;charset=utf-8' },
+      })
+
+      return response
+    } catch (error) {
+      console.log("Error: ", error)
+      return null
+    }
+  }
+
   export default {
     components: {
       "text-input-form": TextInput,
@@ -69,7 +87,7 @@
     data(){
       return {
         passwordShowed: false,
-        mainTitleError: false,
+        someErrorExist: false,
 
         mail: { text: '', error: false, placeholder: '' },
         name: { text: '', error: false, placeholder: '' },
@@ -80,6 +98,10 @@
     },
 
     methods: {
+      checkErrors(){
+        return this.mail.error || this.password.error || this.tagname.error || this.name.error || this.surname.error
+      },
+
       changePasswordInputType(){ this.passwordShowed = !this.passwordShowed },
 
       inputListener(e, key){
@@ -105,14 +127,14 @@
       },
 
       checkName(nametype){
-        const forbiddenSymbols = /^[^\%/\\&\?\,\'\;:!-+!@#\$\^*)(]{5,20}$/
+        const forbiddenSymbols = /^[^\%/\\&\?\,\'\;:!-+!@#\$\^*)(]{0,20}$/
         let text = this[nametype].text
 
-        this[nametype].error = !forbiddenSymbols.test(text) || (text.length <= 5) || (text.length >= 20)
+        this[nametype].error = !forbiddenSymbols.test(text) || (text.length == 0) || (text.length >= 20)
 
         if ( this[nametype].error ){ this[nametype].text = '' }
 
-        if( text.length <= 5 ){ this[nametype].placeholder = 'Too short!'; return }
+        if( text.length == 0 ){ this[nametype].placeholder = 'Too short!'; return }
 
         if( text.length >= 20 ){ this[nametype].placeholder = 'Too long!'; return }
 
@@ -125,13 +147,39 @@
         }
       },
 
+      passwordCheck(){
+        this.password.error = (this.password.text.length <= 5) || (this.password.text.length >= 20)
+
+        if ( this.password.error ){ this.password.text = "" }
+
+        if( this.password.text.length <= 5 ){ this.password.placeholder = 'Too short!' }
+
+        if( this.password.text.length >= 20 ){ this.password.placeholder = 'Too long!' }
+      },
+
       submitButtonClickListener(){
         this.checkMail()
         this.checkNames()
+        this.passwordCheck()
 
-        this.mainTitleError = this.mail.error || nameChecker.test(this.name.text)
-      }
+        if( this.checkErrors() ){ return }
+
+        jsonPostRequest('http://localhost:3000/registration', {
+          mail: this.mail.text,
+          password: this.password.text,
+          name: this.name.text,
+          tagname: this.tagname.text,
+          surname: this.surname.text,
+        })
+      },
     },
+
+    computed: {
+      errorWasFinded(){
+        this.someErrorExist = this.mail.error || this.password.error || this.tagname.error || this.name.error || this.surname.error
+        return this.someErrorExist
+      }
+    }
   }
 </script>
 
