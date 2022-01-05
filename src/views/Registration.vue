@@ -3,6 +3,13 @@
     <div class="reg_container column align">
       <h1 class="title column align" :class="{ 'error_title': errorWasFinded }">Registration</h1>
 
+      <alerter
+        :text="alerterText"
+        :alert_method="customAlert"
+        :alerter_hide_method="hideAlerter"
+        :active="alerterActive"
+      ></alerter>
+
       <div class="inputs_inner column">
         <text-input-form
           title="Mail"
@@ -28,6 +35,14 @@
           :placeholder="surname.placeholder"
         ></text-input-form>
 
+        <text-input-form
+          title="Tagname"
+          :value="tagname.text"
+          :input_listener="tagnameInputListener"
+          :title_classes="[ tagname.error ? 'error_title' : '' ]"
+          :placeholder="tagname.placeholder"
+        ></text-input-form>
+
         <div class="row password_input_inner">
           <text-input-form
             title="Password"
@@ -44,15 +59,6 @@
             @click="changePasswordInputType"
           ></div>
         </div>
-
-
-        <text-input-form
-          title="Tagname"
-          :value="tagname.text"
-          :input_listener="tagnameInputListener"
-          :title_classes="[ tagname.error ? 'error_title' : '' ]"
-          :placeholder="tagname.placeholder"
-        ></text-input-form>
       </div>
 
       <div class="button submit_button" @click="submitButtonClickListener">Submit</div>
@@ -63,6 +69,7 @@
 
 <script>
   import TextInput from "@/components/TextInput.vue"
+  import Alerter from "@/components/Alerter.vue"
 
   async function jsonPostRequest(url, data){
     try {
@@ -82,22 +89,33 @@
   export default {
     components: {
       "text-input-form": TextInput,
+      "alerter": Alerter,
     },
 
     data(){
       return {
         passwordShowed: false,
         someErrorExist: false,
+        alerterActive: false,
+        alerterText: "",
 
         mail: { text: '', error: false, placeholder: '' },
         name: { text: '', error: false, placeholder: '' },
         surname: { text: '', error: false, placeholder: '' },
-        password: { text: '', error: false, placeholder: '' },
         tagname: { text: '', error: false, placeholder: '' },
+        password: { text: '', error: false, placeholder: '' },
       }
     },
 
     methods: {
+      customAlert(text){
+        if ( typeof text != "string" ){ return }
+        this.alerterText = text
+        this.alerterActive = true
+      },
+
+      hideAlerter(){ this.alerterActive = false },
+
       checkErrors(){
         return this.mail.error || this.password.error || this.tagname.error || this.name.error || this.surname.error
       },
@@ -127,7 +145,7 @@
       },
 
       checkName(nametype){
-        const forbiddenSymbols = /^[^\%/\\&\?\,\'\;:!-+!@#\$\^*)(]{0,20}$/
+        const forbiddenSymbols = /^[^\%/\\&\?\,\'\;:!-+!@#\$\^*)(]{2,20}$/
         let text = this[nametype].text
 
         this[nametype].error = !forbiddenSymbols.test(text) || (text.length == 0) || (text.length >= 20)
@@ -157,26 +175,34 @@
         if( this.password.text.length >= 20 ){ this.password.placeholder = 'Too long!' }
       },
 
-      submitButtonClickListener(){
+      async submitButtonClickListener(){
         this.checkMail()
         this.checkNames()
         this.passwordCheck()
 
         if( this.checkErrors() ){ return }
 
-        jsonPostRequest('http://localhost:3000/registration', {
+        let res = await jsonPostRequest('http://localhost:3000/registration', {
           mail: this.mail.text,
           password: this.password.text,
           name: this.name.text,
           tagname: this.tagname.text,
           surname: this.surname.text,
         })
+
+        switch (res.status) {
+          case 406:
+            let resText = await res.text()
+            this.customAlert( resText ? resText : res.statusText )
+          break
+        }
       },
     },
 
     computed: {
       errorWasFinded(){
-        this.someErrorExist = this.mail.error || this.password.error || this.tagname.error || this.name.error || this.surname.error
+        this.someErrorExist = this.mail.error || this.password.error || this.tagname.error
+        this.someErrorExist = this.someErrorExist || this.name.error || this.surname.error
         return this.someErrorExist
       }
     }

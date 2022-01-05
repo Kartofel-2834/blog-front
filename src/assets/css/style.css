@@ -59,3 +59,22 @@
   background-color: white;
   transform: scale(1.05);
 }
+
+.alerter{
+  position: fixed;
+  bottom: 2rem;
+
+  max-width: 60%;
+  padding: 0.5rem 4rem;
+  overflow: hidden;
+
+  background-color: #1c1c1c;
+  color: white;
+
+  text-align: center;
+  border-radius: 36px;
+  box-shadow: 0px 4px 11px 1px rgb(34 60 80 / 10%);
+  cursor: pointer;
+  z-index: 100;
+  transition: 0.15s linear;
+}
