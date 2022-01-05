@@ -12,53 +12,20 @@
 
       <div class="inputs_inner column">
         <text-input-form
-          title="Mail"
-          :value="mail.text"
-          :input_listener="mailInputListener"
-          :title_classes="[ mail.error ? 'error_title' : '' ]"
-          :placeholder="mail.placeholder"
+          v-for="key in Object.keys(usersData)"
+          :title="key"
+          :value="usersData[key].text"
+          :input_listener="inputListener"
+          :title_classes="[ usersData[key].error ? 'error_title' : '' ]"
+          :placeholder="usersData[key].placeholder"
         ></text-input-form>
 
-        <text-input-form
-          title="Name"
-          :value="name.text"
-          :input_listener="nameInputListener"
-          :title_classes="[ name.error ? 'error_title' : '' ]"
-          :placeholder="name.placeholder"
-        ></text-input-form>
-
-        <text-input-form
-          title="Surname"
-          :value="surname.text"
-          :input_listener="surnameInputListener"
-          :title_classes="[ surname.error ? 'error_title' : '' ]"
-          :placeholder="surname.placeholder"
-        ></text-input-form>
-
-        <text-input-form
-          title="Tagname"
-          :value="tagname.text"
-          :input_listener="tagnameInputListener"
-          :title_classes="[ tagname.error ? 'error_title' : '' ]"
-          :placeholder="tagname.placeholder"
-        ></text-input-form>
-
-        <div class="row password_input_inner">
-          <text-input-form
-            title="Password"
-            :value="password.text"
-            :type="passwordShowed ? 'text' : 'password'"
-            :input_listener="passwordInputListener"
-            :placeholder="password.placeholder"
-            :title_classes="[ password.error ? 'error_title' : '' ]"
-          ></text-input-form>
-
-          <div
-            class="change_password_input_type_button"
-            :class="{ 'change_password_input_type_button_active': passwordShowed }"
-            @click="changePasswordInputType"
-          ></div>
-        </div>
+        <password-input
+          :value="password.text"
+          :input_listener="passwordInputListener"
+          :title_classes="[ password.error ? 'error_title' : '' ]"
+          :placeholder="password.placeholder"
+        ></password-input>
       </div>
 
       <div class="button submit_button" @click="submitButtonClickListener">Submit</div>
@@ -68,6 +35,7 @@
 </template>
 
 <script>
+  import PasswordInput from "@/components/PasswordInput.vue"
   import TextInput from "@/components/TextInput.vue"
   import Alerter from "@/components/Alerter.vue"
 
@@ -90,19 +58,21 @@
     components: {
       "text-input-form": TextInput,
       "alerter": Alerter,
+      "password-input": PasswordInput,
     },
 
     data(){
       return {
-        passwordShowed: false,
-        someErrorExist: false,
         alerterActive: false,
         alerterText: "",
 
-        mail: { text: '', error: false, placeholder: '' },
-        name: { text: '', error: false, placeholder: '' },
-        surname: { text: '', error: false, placeholder: '' },
-        tagname: { text: '', error: false, placeholder: '' },
+        usersData: {
+          mail: { text: '', error: false, placeholder: '' },
+          name: { text: '', error: false, placeholder: '' },
+          surname: { text: '', error: false, placeholder: '' },
+          tagname: { text: '', error: false, placeholder: '' },
+        },
+
         password: { text: '', error: false, placeholder: '' },
       }
     },
@@ -117,46 +87,57 @@
       hideAlerter(){ this.alerterActive = false },
 
       checkErrors(){
-        return this.mail.error || this.password.error || this.tagname.error || this.name.error || this.surname.error
-      },
+        let answer = false
 
-      changePasswordInputType(){ this.passwordShowed = !this.passwordShowed },
+        for (let key of Object.keys(this.usersData)){
+          answer = answer || this.usersData[key].error
+        }
+
+        return answer
+      },
 
       inputListener(e, key){
-        this[key].text = e.target.value
-        this[key].error = false
-        this[key].placeholder = ""
+        this.usersData[key].text = e.target.value
+        this.usersData[key].error = false
+        this.usersData[key].placeholder = ""
       },
 
-      mailInputListener(e){ this.inputListener(e, 'mail') },
-      nameInputListener(e){ this.inputListener(e, 'name') },
-      surnameInputListener(e){ this.inputListener(e, 'surname') },
-      passwordInputListener(e){ this.inputListener(e, 'password') },
-      tagnameInputListener(e){ this.inputListener(e, 'tagname') },
+      passwordInputListener(e){
+        this.password.text = e.target.value
+        this.password.error = false
+        this.password.placeholder = ""
+      },
 
       checkMail(){
         const mailChecker = /[a-z]@[a-z]/
+        let mail = this.usersData.mail
 
-        this.mail.error = !mailChecker.test(this.mail.text)
-        if ( this.mail.error ){
-          this.mail.placeholder = "Forbidden symbols!"
-          this.mail.text = ""
+        mail.error = !mailChecker.test(mail.text)
+
+        if ( mail.error ){
+          mail.placeholder = "Forbidden symbols!"
+          mail.text = ""
         }
+
+        this.usersData.mail = mail
       },
 
       checkName(nametype){
         const forbiddenSymbols = /^[^\%/\\&\?\,\'\;:!-+!@#\$\^*)(]{2,20}$/
-        let text = this[nametype].text
+        let name = this.usersData[nametype]
+        let text = name.text
 
-        this[nametype].error = !forbiddenSymbols.test(text) || (text.length == 0) || (text.length >= 20)
+        name.error = !forbiddenSymbols.test(text) || (text.length == 0) || (text.length >= 20)
 
-        if ( this[nametype].error ){ this[nametype].text = '' }
+        if ( name.error ){ name.text = '' }
 
-        if( text.length == 0 ){ this[nametype].placeholder = 'Too short!'; return }
+        if( text.length == 0 ){ name.placeholder = 'Too short!'; return }
 
-        if( text.length >= 20 ){ this[nametype].placeholder = 'Too long!'; return }
+        if( text.length >= 20 ){ name.placeholder = 'Too long!'; return }
 
-        if ( !forbiddenSymbols.test(text) ){ this[nametype].placeholder = 'Forbidden symbols!'; return }
+        if ( !forbiddenSymbols.test(text) ){ name.placeholder = 'Forbidden symbols!'; return }
+
+        this.usersData[nametype] = name
       },
 
       checkNames(){
@@ -166,13 +147,16 @@
       },
 
       passwordCheck(){
-        this.password.error = (this.password.text.length <= 5) || (this.password.text.length >= 20)
+        let pass = this.password
+        pass.error = (pass.text.length <= 5) || (pass.text.length >= 20)
 
-        if ( this.password.error ){ this.password.text = "" }
+        if ( pass.error ){ pass.text = "" }
 
-        if( this.password.text.length <= 5 ){ this.password.placeholder = 'Too short!' }
+        if( pass.text.length <= 5 ){ pass.placeholder = 'Too short!' }
 
-        if( this.password.text.length >= 20 ){ this.password.placeholder = 'Too long!' }
+        if( pass.text.length >= 20 ){ pass.placeholder = 'Too long!' }
+
+        this.password = pass
       },
 
       async submitButtonClickListener(){
@@ -182,13 +166,14 @@
 
         if( this.checkErrors() ){ return }
 
-        let res = await jsonPostRequest('http://localhost:3000/registration', {
-          mail: this.mail.text,
-          password: this.password.text,
-          name: this.name.text,
-          tagname: this.tagname.text,
-          surname: this.surname.text,
-        })
+        let user = this.usersData
+        user.password = this.password
+
+        for (let key of Object.keys(user)){
+          user[key] = user[key].text
+        }
+
+        let res = await jsonPostRequest('http://localhost:3000/registration', user)
 
         switch (res.status) {
           case 406:
@@ -200,11 +185,7 @@
     },
 
     computed: {
-      errorWasFinded(){
-        this.someErrorExist = this.mail.error || this.password.error || this.tagname.error
-        this.someErrorExist = this.someErrorExist || this.name.error || this.surname.error
-        return this.someErrorExist
-      }
+      errorWasFinded(){ return this.checkErrors() }
     }
   }
 </script>

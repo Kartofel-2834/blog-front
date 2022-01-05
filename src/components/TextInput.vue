@@ -4,7 +4,7 @@
       class="input_title column align"
       :class="titleClasses"
     >
-      {{ title }}:
+      {{ title[0].toUpperCase() + title.slice(1, title.length) }}:
     </div>
 
     <input
@@ -13,7 +13,7 @@
       :class="input_classes"
       @blur="blurCheck"
       @focus="focusedCheck"
-      @input="input_listener"
+      @input="trueInputListener"
       :placeholder="placeholder"
       :value="value"
     >
@@ -47,6 +47,10 @@
       blurCheck(e){
         this.focused = false
         this.blur_listener(e)
+      },
+
+      trueInputListener(e){
+        this.input_listener(e, this.title)
       },
     },
 
