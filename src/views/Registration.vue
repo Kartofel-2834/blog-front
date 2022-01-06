@@ -159,28 +159,29 @@
         this.password = pass
       },
 
-      async submitButtonClickListener(){
+      async submitButtonClickListener(e){
         this.checkMail()
         this.checkNames()
         this.passwordCheck()
 
         if( this.checkErrors() ){ return }
 
-        let user = this.usersData
-        user.password = this.password
+        let user = {}
+        user.password = this.password.text
 
-        for (let key of Object.keys(user)){
-          user[key] = user[key].text
+        for (let key of Object.keys(this.usersData)){
+          user[key] = this.usersData[key].text
         }
 
         let res = await jsonPostRequest('http://localhost:3000/registration', user)
 
-        switch (res.status) {
-          case 406:
-            let resText = await res.text()
-            this.customAlert( resText ? resText : res.statusText )
-          break
+        if ( res.status != 200 ){
+          let resText = await res.text()
+          this.customAlert( resText ? resText : res.statusText )
+          return
         }
+
+        document.location.href = `/token?tag=${ encodeURIComponent(user.tagname) }`
       },
     },
 

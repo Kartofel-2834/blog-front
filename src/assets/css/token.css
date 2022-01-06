@@ -1,0 +1,48 @@
+.wrapper{
+  height: 90vh;
+}
+
+.token_page_title{
+  padding: 1rem 0;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.token_nums_inner{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.token_num{
+  min-width: 10%;
+  max-width: 10%;
+  max-height: 50vh;
+  overflow: hidden;
+  text-align: center;
+  font-size: 6rem;
+  padding: 0.5rem 0;
+  border: 4px solid #1c1c1c;
+  border-radius: 8px;
+  user-select: none;
+  background-color: white;
+  transition: 0.15s linear;
+}
+
+.num_active{
+  border-color: #29c3d6;
+}
+
+.shy_input{
+  opacity: 0;
+  transform: translate(-100%, 0);
+  cursor: default;
+}
+
+.send_button{
+  z-index: 100;
+  margin: 0;
+}
