@@ -175,13 +175,12 @@
 
         let res = await jsonPostRequest('http://localhost:3000/registration', user)
 
-        if ( res.status != 200 ){
+        if ( Math.floor(res.status / 100) != 2 ){
           let resText = await res.text()
           this.customAlert( resText ? resText : res.statusText )
-          return
+        } else {
+          document.location.href = `/token?tag=${ encodeURIComponent(user.tagname) }`
         }
-
-        document.location.href = `/token?tag=${ encodeURIComponent(user.tagname) }`
       },
     },
 

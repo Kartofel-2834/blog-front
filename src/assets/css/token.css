@@ -43,6 +43,11 @@
 }
 
 .send_button{
-  z-index: 100;
+  z-index: 50;
   margin: 0;
+}
+
+.alerter_class{
+  margin: 0 auto;
+  z-index: 1000;
 }

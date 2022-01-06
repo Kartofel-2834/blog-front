@@ -5,6 +5,7 @@
 <script>
  export default {
    props: {
+     "css_classes": { type: Array, default: [] },
      "text": { type: String, default: "" },
      "active": { type: Boolean, default: false },
      "alert_method": { type: Function, default: ()=>{} },
@@ -36,7 +37,7 @@
          this.hide()
        }
 
-       return Array.from(this.cssClasses)
+       return Array.from(this.cssClasses).concat(this.css_classes)
      },
    }
  }

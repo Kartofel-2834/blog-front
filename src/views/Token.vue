@@ -1,4 +1,14 @@
 <template>
+  <div class="center" style="z-index: 1000">
+    <alerter
+    :css_classes="[ 'alerter_class' ]"
+    :text="alerterText"
+    :alert_method="customAlert"
+    :alerter_hide_method="hideAlerter"
+    :active="alerterActive"
+    ></alerter>
+  </div>
+
   <div class="wrapper column align space_between">
     <div class="token_page_title">Put here token, that we send on your e-mail</div>
     <div class="button send_button" @click="sendToken">Send token</div>
@@ -22,6 +32,8 @@
 
 
 <script>
+  import Alerter from "@/components/Alerter.vue"
+
   async function jsonPostRequest(url, data){
     try {
       const response = await fetch(url, {
@@ -39,8 +51,14 @@
 
   export default {
     data(){
-      return { tokenVal: "" }
+      return {
+        tokenVal: "",
+        alerterText: "",
+        alerterActive: false,
+      }
     },
+
+    components: { "alerter": Alerter },
 
     created(){
         window.onkeydown = (e)=>{
@@ -49,6 +67,14 @@
     },
 
     methods: {
+      customAlert(text){
+        if ( typeof text != "string" ){ return }
+        this.alerterText = text
+        this.alerterActive = true
+      },
+
+      hideAlerter(){ this.alerterActive = false },
+
       inputListener(e){
         if (e.target.value.length > 6 || /[a-z]/.test(e.target.value)){
           e.target.value = this.tokenVal
@@ -62,9 +88,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const userTagname = urlParams.get("tag")
 
-        if ( typeof userTagname != 'string' || userTagname.length < 2 ){
-          return
-        }
+        if ( typeof userTagname != 'string' || userTagname.length < 2 ){ return }
 
         let valueWithZeroes = String(this.tokenVal)
 
@@ -77,7 +101,12 @@
           token: valueWithZeroes
         })
 
-        console.log(res)
+        if ( Math.floor(res.status / 100) != 2 ){
+          let resText = await res.text()
+          this.customAlert( resText ? resText : res.statusText )
+        } else {
+          document.location.href = "/"
+        }
       },
     },
   }
