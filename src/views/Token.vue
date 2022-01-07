@@ -33,21 +33,9 @@
 
 <script>
   import Alerter from "@/components/Alerter.vue"
+  import Helpers from "@/utils/helpers.js"
 
-  async function jsonPostRequest(url, data){
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers:{ 'Content-Type': 'application/json;charset=utf-8' },
-      })
-
-      return response
-    } catch (error) {
-      console.log("Error: ", error)
-      return null
-    }
-  }
+  const jsonPostRequest = Helpers.jsonPostRequest
 
   export default {
     data(){
@@ -61,9 +49,9 @@
     components: { "alerter": Alerter },
 
     created(){
-        window.onkeydown = (e)=>{
-          return !/[a-z]/.test(e.key) || e.keyCode == 8 //backspace
-        }
+      window.onkeydown = (e)=>{
+        return !/[a-z]/.test(e.key) || e.keyCode == 8 //backspace
+      }
     },
 
     methods: {
@@ -86,7 +74,7 @@
 
       async sendToken(){
         const urlParams = new URLSearchParams(window.location.search);
-        const userTagname = urlParams.get("tag")
+        const userTagname = this.$route.params.tag
 
         if ( typeof userTagname != 'string' || userTagname.length < 2 ){ return }
 
@@ -105,7 +93,7 @@
           let resText = await res.text()
           this.customAlert( resText ? resText : res.statusText )
         } else {
-          document.location.href = "/"
+          this.$router.push("/")
         }
       },
     },

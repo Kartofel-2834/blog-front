@@ -38,21 +38,9 @@
   import PasswordInput from "@/components/PasswordInput.vue"
   import TextInput from "@/components/TextInput.vue"
   import Alerter from "@/components/Alerter.vue"
+  import Helpers from "@/utils/helpers.js"
 
-  async function jsonPostRequest(url, data){
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers:{ 'Content-Type': 'application/json;charset=utf-8' },
-      })
-
-      return response
-    } catch (error) {
-      console.log("Error: ", error)
-      return null
-    }
-  }
+  const jsonPostRequest = Helpers.jsonPostRequest
 
   export default {
     components: {
@@ -179,7 +167,7 @@
           let resText = await res.text()
           this.customAlert( resText ? resText : res.statusText )
         } else {
-          document.location.href = `/token?tag=${ encodeURIComponent(user.tagname) }`
+          this.$router.push(`/token?tag=${ encodeURIComponent(user.tagname) }`)
         }
       },
     },

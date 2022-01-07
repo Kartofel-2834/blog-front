@@ -18,8 +18,7 @@ const routes = [
   },
 
   {
-    path: '/token',
-    name: 'Token',
+    path: '/token-:tag(.*)',
     component: Token,
   },
 ]
