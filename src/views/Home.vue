@@ -29,6 +29,7 @@
     ></post-block>
 
     <!--<img src="@/assets/user_hats/rei_swimming.jpg">-->
+
   </div>
 </template>
 
@@ -40,6 +41,11 @@
   import FullScreenModeComponent from '@/components/FullScreenModeComponent.vue'
   import CentralButton from '@/components/CentralButton.vue'
   import PostCreationField from '@/components/PostCreationField.vue'
+  import Helpers from "@/utils/helpers.js"
+
+  const jsonPostRequest = Helpers.jsonPostRequest
+  const apiUrl = "http://localhost:3000"
+
 
   let testPosts = [
     {
@@ -136,11 +142,33 @@
       }
     },
 
+    async created(){
+      let auth = {}
+
+      if (window.localStorage) {
+        auth.authKey = window.localStorage.getItem('authKey')
+        auth.tagname = window.localStorage.getItem('tagname')
+      }
+
+      console.log(auth)
+
+      if ( Object.keys(auth).length != 2 ){
+        this.$router.push("/signin"); return
+      }
+
+      let res = await jsonPostRequest(`${ apiUrl }/`, auth)
+
+      if ( Math.floor(res.status / 100) == 2 ){
+        let user = await res.json()
+        console.log(user)
+      } else {
+        this.$router.push("/signin")
+      }
+    },
+
     methods: {
       fullscreenModeOn(){ this.fullscreen.isActive = true },
       fullscreenModeOff(){ this.fullscreen.isActive = false },
-
-
 
       selectImageGroup(images, start){
         this.fullscreen.images = images

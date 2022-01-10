@@ -3,24 +3,19 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import Registration from '@/views/Registration.vue'
 import Token from '@/views/Token.vue'
+import SignIn from '@/views/SignIn.vue'
+import PasswordRecovery from '@/views/PasswordRecovery.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-  },
+  { path: '/', component: Home },
 
-  {
-    path: '/registration',
-    name: 'Registration',
-    component: Registration,
-  },
+  { path: '/registration', component: Registration },
 
-  {
-    path: '/token-:tag(.*)',
-    component: Token,
-  },
+  { path: '/token-:tag(.*)', component: Token },
+
+  { path: '/signin', component: SignIn },
+
+  { path: '/password-recovery', component: PasswordRecovery },
 ]
 
 const router = createRouter({

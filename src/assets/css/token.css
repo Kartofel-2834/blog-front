@@ -51,3 +51,33 @@
   margin: 0 auto;
   z-index: 1000;
 }
+
+.new_token_button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: 1rem;
+  padding-bottom: 0.1rem;
+  color: #899597;
+  cursor: pointer;
+  z-index: 100;
+  transition: 0.15s linear;
+}
+
+.new_token_button:after{
+  content: '';
+  margin-top: 0.2rem;
+  width: 100%;
+  height: 2px;
+  background-color: #89959785;
+  transition: 0.15s linear;
+}
+
+.new_token_button:hover{
+  color: #1c1c1c;
+}
+
+.new_token_button:hover::after{
+  background-color: #6cd8e6;
+}

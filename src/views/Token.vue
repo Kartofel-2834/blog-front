@@ -10,7 +10,11 @@
   </div>
 
   <div class="wrapper column align space_between">
-    <div class="token_page_title">Put here token, that we send on your e-mail</div>
+    <div class="token_top_nav column align">
+      <div class="token_page_title">Put here token, that we send on your e-mail</div>
+      <div class="new_token_button" @click="sendNewToken">send new token on mail</div>
+    </div>
+
     <div class="button send_button" @click="sendToken">Send token</div>
   </div>
 
@@ -36,6 +40,7 @@
   import Helpers from "@/utils/helpers.js"
 
   const jsonPostRequest = Helpers.jsonPostRequest
+  const apiUrl = "http://localhost:3000"
 
   export default {
     data(){
@@ -73,7 +78,6 @@
       },
 
       async sendToken(){
-        const urlParams = new URLSearchParams(window.location.search);
         const userTagname = this.$route.params.tag
 
         if ( typeof userTagname != 'string' || userTagname.length < 2 ){ return }
@@ -84,7 +88,7 @@
           valueWithZeroes += '0'
         }
 
-        let res = await jsonPostRequest('http://localhost:3000/token', {
+        let res = await jsonPostRequest(`${ apiUrl }/token`, {
           tag: userTagname,
           token: valueWithZeroes
         })
@@ -93,9 +97,20 @@
           let resText = await res.text()
           this.customAlert( resText ? resText : res.statusText )
         } else {
-          this.$router.push("/")
+          this.$router.push("/signin")
         }
       },
+
+      async sendNewToken(){
+        let tag = this.$route.params.tag
+
+        if ( !tag ){ return }
+
+        let res = await jsonPostRequest(`${ apiUrl }/newToken`, { tag: tag })
+
+        let resText = await res.text()
+        this.customAlert( resText ? resText : res.statusText )
+      }
     },
   }
 </script>

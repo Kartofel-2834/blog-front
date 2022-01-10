@@ -34,12 +34,15 @@
 
 </template>
 
+<style src="@/assets/css/registration.css"></style>
+
 <script>
   import PasswordInput from "@/components/PasswordInput.vue"
   import TextInput from "@/components/TextInput.vue"
   import Alerter from "@/components/Alerter.vue"
   import Helpers from "@/utils/helpers.js"
 
+  const apiUrl = "http://localhost:3000"
   const jsonPostRequest = Helpers.jsonPostRequest
 
   export default {
@@ -161,13 +164,13 @@
           user[key] = this.usersData[key].text
         }
 
-        let res = await jsonPostRequest('http://localhost:3000/registration', user)
+        let res = await jsonPostRequest(`${ apiUrl }/registration`, user)
 
         if ( Math.floor(res.status / 100) != 2 ){
           let resText = await res.text()
           this.customAlert( resText ? resText : res.statusText )
         } else {
-          this.$router.push(`/token?tag=${ encodeURIComponent(user.tagname) }`)
+          this.$router.push(`/token-${ encodeURIComponent(user.tagname) }`)
         }
       },
     },
@@ -177,5 +180,3 @@
     }
   }
 </script>
-
-<style src="@/assets/css/registration.css"></style>
