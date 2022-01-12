@@ -14,6 +14,7 @@
       @blur="blurCheck"
       @focus="focusedCheck"
       @input="trueInputListener"
+      @keydown="keydown_listener"
       :placeholder="placeholder"
       :value="value"
     >
@@ -32,6 +33,7 @@
       "blur_listener": { type: Function, default: ()=>{} },
       "focus_listener": { type: Function, default: ()=>{} },
       "input_listener": { type: Function, default: ()=>{} },
+      "keydown_listener": { type: Function, default: ()=>{} },
     },
 
     data(){

@@ -24,36 +24,13 @@
       </div>
 
       <div class="button submit_button" @click="submitButtonClickListener">let's go</div>
-      <a class="password_recovery_link column align" href="/password-recovery">Forgot password?</a>
+      <a class="link column align" href="/password-recovery">Forgot password?</a>
     </div>
   </div>
 
 </template>
 
 <style src="@/assets/css/registration.css"></style>
-
-<style media="screen">
-  .password_recovery_link{
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.8rem;
-    margin-top: 1rem;
-    cursor: pointer;
-  }
-
-  .password_recovery_link:after{
-    content: '';
-    margin-top: 0.3rem;
-    width: 0%;
-    height: 2px;
-    background-color: #1c1c1c;
-    transition: 0.15s linear;
-  }
-
-  .password_recovery_link:hover:after{
-    width: 100%;
-  }
-</style>
 
 <script>
   import PasswordInput from "@/components/PasswordInput.vue"

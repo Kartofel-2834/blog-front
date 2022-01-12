@@ -137,7 +137,7 @@
         }
       },
 
-      passwordCheck(){
+      checkPassword(){
         let pass = this.password
         pass.error = (pass.text.length <= 5) || (pass.text.length >= 20)
 
@@ -153,7 +153,7 @@
       async submitButtonClickListener(e){
         this.checkMail()
         this.checkNames()
-        this.passwordCheck()
+        this.checkPassword()
 
         if( this.checkErrors() ){ return }
 

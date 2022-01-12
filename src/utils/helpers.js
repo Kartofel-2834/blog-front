@@ -1,7 +1,11 @@
 async function jsonPostRequest(url, data){
+  return await jsonBodyRequest(url, "POST", data)
+}
+
+async function jsonBodyRequest(url, method, data){
   try {
     const response = await fetch(url, {
-      method: 'POST',
+      method: method,
       body: JSON.stringify(data),
       headers:{ 'Content-Type': 'application/json;charset=utf-8' },
     })
@@ -14,5 +18,6 @@ async function jsonPostRequest(url, data){
 }
 
 export default {
-  jsonPostRequest: jsonPostRequest
+  jsonPostRequest: jsonPostRequest,
+  jsonBodyRequest: jsonBodyRequest,
 }
