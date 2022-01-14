@@ -40,7 +40,7 @@
   import Helpers from "@/utils/helpers.js"
 
   const jsonPostRequest = Helpers.jsonPostRequest
-  const apiUrl = "http://localhost:3000"
+  const apiUrl = Helpers.apiUrl
 
   export default {
     data(){
@@ -97,6 +97,7 @@
           let resText = await res.text()
           this.customAlert( resText ? resText : res.statusText )
         } else {
+          window.onkeydown = ()=>{}
           this.$router.push("/signin")
         }
       },

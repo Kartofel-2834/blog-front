@@ -7,8 +7,11 @@
     :image_change_method="changeGaleryMainImage"
   ></fullscreen-mode-component>
 
-  <blog-hat :user="user"></blog-hat>
+  <blog-hat :user="user" :static_src="apiUrl"></blog-hat>
 
+  <!--
+  <central-button @click="aboba"></central-button>
+  -->
   <central-button @click="showPostCreationField"></central-button>
 
   <post-creation-field
@@ -16,13 +19,14 @@
     :hided="postCreationFieldHided"
   ></post-creation-field>
 
-  <div class="container">
+  <div class="container" v-if="user && user.posts">
     <post-block
       v-for="postObj in user.posts"
+      :static_src="apiUrl"
       :owner_name="user.name"
       :owner_surname="user.surname"
       :owner_tag="user.tag"
-      :owner_avatar_filename="user.avatar.filename"
+      :owner_avatar_filename="user.avatar ? user.avatar.filename : null"
       :post="postObj"
       :method_for_open_fullscreen="fullscreenModeOn"
       :select_image_group_method="selectImageGroup"
@@ -37,90 +41,32 @@
 
 <script>
   import UserBlogHat from '@/components/UserHatComponents/UserBlogHat.vue'
-  import PostComponent from '@/components/PostComponents/MainPostComponent.vue'
-  import FullScreenModeComponent from '@/components/FullScreenModeComponent.vue'
   import CentralButton from '@/components/CentralButton.vue'
   import PostCreationField from '@/components/PostCreationField.vue'
+  import PostComponent from '@/components/PostComponents/MainPostComponent.vue'
+  import FullScreenModeComponent from '@/components/FullScreenModeComponent.vue'
+
   import Helpers from "@/utils/helpers.js"
 
   const jsonPostRequest = Helpers.jsonPostRequest
-  const apiUrl = "http://localhost:3000"
-
-
-  let testPosts = [
-    {
-      owner_id: "123456",
-      id: "111111",
-      text: "Скоро выходит 41й том Берсерка, первый после смерти Миуры. Ждем.",
-      date: Date.now() - 100000,
-      images: [
-        { id: "987126", post_id: "111111", filename: "berserk.png", ext: "png" },
-      ],
-    },
-
-    {
-      owner_id: "123456",
-      id: "222222",
-      text: "Просто фото котят",
-      date: Date.now() - 10000000,
-      images: [
-        { id: "615379", post_id: "222222", filename: "kitten_4.jpg", ext: "jpg" },
-        { id: "236455", post_id: "222222", filename: "kitten_1.jpg", ext: "jpg" },
-        { id: "368722", post_id: "222222", filename: "kitten_2.jpg", ext: "jpg" },
-        { id: "386821", post_id: "222222", filename: "kitten_3.jpg", ext: "jpg" },
-        { id: "386821", post_id: "222222", filename: "kitten_5.jpg", ext: "jpg" },
-        { id: "386821", post_id: "222222", filename: "kitten_6.jpg", ext: "jpg" },
-        { id: "386821", post_id: "222222", filename: "kitten_7.jpg", ext: "jpg" },
-        { id: "386821", post_id: "222222", filename: "kitten_8.jpg", ext: "jpg" },
-        { id: "386821", post_id: "222222", filename: "kitten_9.jpg", ext: "jpg" },
-        { id: "386821", post_id: "222222", filename: "kitten_10.jpg", ext: "jpg" },
-        { id: "386821", post_id: "222222", filename: "kitten_11.jpg", ext: "jpg" },
-      ],
-    },
-
-    {
-      owner_id: "123456",
-      id: "333333",
-      text: "Let's celebrate and suck some dick",
-      date: Date.now() - 100000000,
-      images: [
-        { id: "683682", post_id: "333333", filename: "gachi_1.jpg", ext: "jpg" },
-        { id: "157926", post_id: "333333", filename: "gachi_2.jpg", ext: "jpg" },
-        { id: "987642", post_id: "333333", filename: "gachi_3.jpg", ext: "jpg" },
-      ],
-    },
-
-    {
-      owner_id: "123456",
-      id: "444444",
-      text: null,
-      date: Date.now() - 1000000000,
-      images: [
-        { id: "298323", post_id: "444444", filename: "bleach_1.jpg", ext: "jpg" },
-        { id: "457687", post_id: "444444", filename: "bleach_2.jpg", ext: "jpg" },
-      ],
-    },
-  ]
-
-  let testAvatar = { owner_id: "123456", id: "321654", filename: "test_avatar.jpg", ext: "jpg" }
-
-  let testHatPic = { owner_id: "123456", id: "654321", filename: "rei_swimming.jpg", ext: "jpg" }
-
-  let testUser = {
-    id: "123456",
-    name: "Kamal",
-    surname: "Demirov",
-    tag: "@ananlniydeboshir",
-    description: "Some information about this person",
-    followers: 30,
-    posts: testPosts,
-    avatar: testAvatar,
-    hatPic: testHatPic,
-  }
-
-  ////////////////////////////////////////////////////////////////////////////
+  const jsonBodyRequest = Helpers.jsonBodyRequest
+  const apiUrl = Helpers.apiUrl
 
   export default {
+    data(){
+      return {
+        user: null,
+        postCreationFieldHided: true,
+        apiUrl: apiUrl,
+
+        fullscreen: {
+          isActive: false,
+          images: [],
+          index: 0,
+        },
+      }
+    },
+
     components: {
       "blog-hat": UserBlogHat,
       "post-block": PostComponent,
@@ -129,16 +75,33 @@
       "post-creation-field": PostCreationField,
     },
 
-    data(){
-      return {
-        user: testUser,
-        fullscreen: {
-          isActive: false,
-          images: [],
-          index: 0,
-        },
+    methods: {
+      async aboba(){
+        let res = await this.createPost({
+          owner_id: this.user.id,
+          text: `Это тестовая запись #${ this.user.posts.length+1 }`,
+          abobus: "1232r23"
+        })
+        console.log(res)
+      },
 
-        postCreationFieldHided: true,
+      fullscreenModeOn(){ this.fullscreen.isActive = true },
+      fullscreenModeOff(){ this.fullscreen.isActive = false },
+
+      selectImageGroup(images, start){
+        this.fullscreen.images = images.map( i => `${ this.apiUrl }/post_images/${ i.filename }` )
+        this.changeGaleryMainImage(start)
+      },
+
+      changeGaleryMainImage(index){
+        this.fullscreen.index = index
+      },
+
+      showPostCreationField(){ this.postCreationFieldHided = false },
+      hidePostCreationField(){ this.postCreationFieldHided = true },
+
+      async createPost(putData){
+        return await jsonBodyRequest(`${ apiUrl }/post`, "PUT", putData)
       }
     },
 
@@ -150,37 +113,25 @@
         auth.tagname = window.localStorage.getItem('tagname')
       }
 
-      console.log(auth)
-
       if ( Object.keys(auth).length != 2 ){
         this.$router.push("/signin"); return
       }
 
       let res = await jsonPostRequest(`${ apiUrl }/`, auth)
+      let user = await res.json()
 
-      if ( Math.floor(res.status / 100) == 2 ){
-        let user = await res.json()
-        console.log(user)
-      } else {
-        this.$router.push("/signin")
+      if ( !user || Object.keys(user) == 0 ){
+        this.$router.push("/signin"); return
       }
-    },
 
-    methods: {
-      fullscreenModeOn(){ this.fullscreen.isActive = true },
-      fullscreenModeOff(){ this.fullscreen.isActive = false },
+      user.posts = user.posts.map( (p)=>{
+        let ans = p
+        ans.images = [ { filename: "snake.png" }, { filename: "111.jpg" } ]
+        return ans
+      }).reverse()
 
-      selectImageGroup(images, start){
-        this.fullscreen.images = images
-        this.changeGaleryMainImage(start)
-      },
-
-      changeGaleryMainImage(index){
-        this.fullscreen.index = index
-      },
-
-      showPostCreationField(){ this.postCreationFieldHided = false },
-      hidePostCreationField(){ this.postCreationFieldHided = true },
+      this.user = user
     }
   }
+
 </script>

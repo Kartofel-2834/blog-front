@@ -24,7 +24,9 @@
       </div>
 
       <div class="button submit_button" @click="submitButtonClickListener">let's go</div>
+
       <a class="link column align" href="/password-recovery">Forgot password?</a>
+      <a class="link column align" href="/registration">Sign up</a>
     </div>
   </div>
 
@@ -39,7 +41,7 @@
   import Helpers from "@/utils/helpers.js"
 
   const jsonPostRequest = Helpers.jsonPostRequest
-  const apiUrl = "http://localhost:3000"
+  const apiUrl = Helpers.apiUrl
 
   export default {
     components: {

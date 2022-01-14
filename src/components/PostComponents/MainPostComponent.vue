@@ -1,10 +1,13 @@
 <template>
-  <div class="post column">
+  <div v-if="post" class="post column">
     <div class="row">
       <avatar
-        :img_src="'/img/' + owner_avatar_filename"
+        v-if="owner_avatar_filename"
+        :img_src="static_src + '/avatars/' + owner_avatar_filename"
         :frame_classes="['column', 'align', 'short_avatar_inner']"
       ></avatar>
+
+      <div v-else class="short_avatar_inner column align default_avatar"></div>
 
       <div class="column">
         <div class="align post_owner_short_info">
@@ -12,7 +15,7 @@
           <div class="post_owner_tag">{{ owner_tag }}</div>
         </div>
 
-        <gone-time-parser :date="post.date"></gone-time-parser>
+        <gone-time-parser :date="Number(post.date)"></gone-time-parser>
       </div>
     </div>
 
@@ -20,6 +23,7 @@
 
     <image-block
       :images="post.images"
+      :static_src="static_src"
       :method_for_open_fullscreen="method_for_open_fullscreen"
       :select_image_group_method="select_image_group_method"
     ></image-block>
@@ -34,6 +38,7 @@
   export default {
     props: {
       "post": { type: Object, default: {} },
+      "static_src": { type: String, default: "" },
       "owner_name": { type: String, default: "" },
       "owner_surname": { type: String, default: "" },
       "owner_tag": { type: String, default: "" },

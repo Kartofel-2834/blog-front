@@ -1,6 +1,7 @@
 <template>
   <!-- 1 photo-->
   <one-image-block
+    :static_src="static_src"
     :images="images"
     :method_for_open_fullscreen="method_for_open_fullscreen"
     :select_image_group_method="select_image_group_method"
@@ -8,6 +9,7 @@
 
   <!-- 2 photo -->
   <two-images-block
+    :static_src="static_src"
     :images="images"
     :method_for_open_fullscreen="method_for_open_fullscreen"
     :select_image_group_method="select_image_group_method"
@@ -15,6 +17,7 @@
 
   <!--3 photo -->
   <three-images-block
+    :static_src="static_src"
     :images="images"
     :method_for_open_fullscreen="method_for_open_fullscreen"
     :select_image_group_method="select_image_group_method"
@@ -22,6 +25,7 @@
 
   <!-- more then 3 photo -->
   <many-images-block
+    :static_src="static_src"
     :images="images"
     :method_for_open_fullscreen="method_for_open_fullscreen"
     :select_image_group_method="select_image_group_method"
@@ -37,6 +41,7 @@
   export default {
     props: {
       "images": { type: Array, default: [] },
+      "static_src": { type: String, default: "" },
       "method_for_open_fullscreen": { type: Function, default: ()=>{} },
       "select_image_group_method": { type: Function, default: ()=>{} },
     },

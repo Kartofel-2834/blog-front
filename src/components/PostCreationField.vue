@@ -3,8 +3,8 @@
     class="post_creation_field column"
     :class="{ 'post_creation_field_hided': hided }"
   >
-    <div class="new_post_top_nav space_between">
-      <div class="row" style="width: -webkit-fill-available">
+    <div class="new_post_top_nav space_between align">
+      <div class="row align" style="width: -webkit-fill-available">
         <div class="post_button close_button" @click="hide_field_method"></div>
         <div class="post_field_title">New post:</div>
       </div>

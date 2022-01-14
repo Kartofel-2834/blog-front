@@ -19,7 +19,7 @@
         @click="prevImage"
       >
 
-      <img :src="'/img/' + images[index].filename" class="fullscreen_image" name="blackholeContent">
+      <img :src="images[index]" class="fullscreen_image" name="blackholeContent">
 
       <img
         v-if="images.length > 1"
@@ -161,6 +161,7 @@
           if ( buff.length > 0 ){ answer.push(buff) }
 
           this.pages = answer
+          console.log(this.pages)
         },
 
         imageIndexControl(){

@@ -61,7 +61,7 @@
 
   const jsonPostRequest = Helpers.jsonPostRequest
   const jsonBodyRequest = Helpers.jsonBodyRequest
-  const apiUrl = "http://localhost:3000"
+  const apiUrl = Helpers.apiUrl
 
   export default {
     components: {

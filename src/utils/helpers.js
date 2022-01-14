@@ -20,4 +20,5 @@ async function jsonBodyRequest(url, method, data){
 export default {
   jsonPostRequest: jsonPostRequest,
   jsonBodyRequest: jsonBodyRequest,
+  apiUrl: "http://localhost:3000",
 }

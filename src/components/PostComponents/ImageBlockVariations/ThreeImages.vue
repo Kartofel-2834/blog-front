@@ -3,7 +3,7 @@
     <div class="post_images_inner">
       <div class="main_image_inner">
         <img
-          class="main_image" :src="'/img/' + images[0].filename"
+          class="main_image" :src="static_src + '/post_images/' + images[0].filename"
           @click="imageClickListener(0)"
         >
       </div>
@@ -12,14 +12,14 @@
     <div class="space_between">
       <div class="bottom_image_inner second_image_inner">
         <img
-          class="second_image" :src="'/img/' + images[1].filename"
+          class="second_image" :src="static_src + '/post_images/' + images[1].filename"
           @click="imageClickListener(1)"
         >
       </div>
 
       <div class="bottom_image_inner second_image_inner">
         <img
-          class="second_image" :src="'/img/' + images[2].filename"
+          class="second_image" :src="static_src + '/post_images/' + images[2].filename"
           @click="imageClickListener(2)"
         >
       </div>
@@ -30,6 +30,7 @@
 <script>
   export default {
     props: {
+      "static_src": { type: String, default: "" },
       "images":{ type: Array, default: [] },
       "method_for_open_fullscreen": { type: Function, default: ()=>{} },
       "select_image_group_method": { type: Function, default: ()=>{} },

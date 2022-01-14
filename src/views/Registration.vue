@@ -42,7 +42,7 @@
   import Alerter from "@/components/Alerter.vue"
   import Helpers from "@/utils/helpers.js"
 
-  const apiUrl = "http://localhost:3000"
+  const apiUrl = Helpers.apiUrl
   const jsonPostRequest = Helpers.jsonPostRequest
 
   export default {

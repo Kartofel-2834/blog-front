@@ -22,7 +22,7 @@
           @click="set_img_index_method(ownImgIndex-1, ownPageIndex)"
         >
           <img
-            :src="'/img/' + pages[ownPageIndex][ownImgIndex-1].filename"
+            :src="pages[ownPageIndex][ownImgIndex-1]"
             class="short_galery_nav_button"
             name="blackholeContent"
           >
