@@ -9,19 +9,20 @@
 
   <blog-hat :user="user" :static_src="apiUrl"></blog-hat>
 
-  <!--
-  <central-button @click="aboba"></central-button>
-  -->
   <central-button @click="showPostCreationField"></central-button>
 
   <post-creation-field
+    :user_id="user && user.id ? user.id : null"
     :hide_field_method="hidePostCreationField"
     :hided="postCreationFieldHided"
+    :post_send_method="createPost"
+    :alert_method="customAlert"
   ></post-creation-field>
 
   <div class="container" v-if="user && user.posts">
     <post-block
       v-for="postObj in user.posts"
+      :key="postObj.id"
       :static_src="apiUrl"
       :owner_name="user.name"
       :owner_surname="user.surname"
@@ -35,6 +36,16 @@
     <!--<img src="@/assets/user_hats/rei_swimming.jpg">-->
 
   </div>
+
+  <div class="center">
+    <alerter
+      :text="alerterText"
+      :alert_method="customAlert"
+      :alerter_hide_method="hideAlerter"
+      :active="alerterActive"
+    ></alerter>
+  </div>
+
 </template>
 
 <style src="@/assets/css/home.css"></style>
@@ -45,6 +56,7 @@
   import PostCreationField from '@/components/PostCreationField.vue'
   import PostComponent from '@/components/PostComponents/MainPostComponent.vue'
   import FullScreenModeComponent from '@/components/FullScreenModeComponent.vue'
+  import Alerter from "@/components/Alerter.vue"
 
   import Helpers from "@/utils/helpers.js"
 
@@ -55,6 +67,9 @@
   export default {
     data(){
       return {
+        alerterActive: false,
+        alerterText: "",
+
         user: null,
         postCreationFieldHided: true,
         apiUrl: apiUrl,
@@ -73,17 +88,17 @@
       "fullscreen-mode-component": FullScreenModeComponent,
       "central-button": CentralButton,
       "post-creation-field": PostCreationField,
+      "alerter": Alerter,
     },
 
     methods: {
-      async aboba(){
-        let res = await this.createPost({
-          owner_id: this.user.id,
-          text: `Это тестовая запись #${ this.user.posts.length+1 }`,
-          abobus: "1232r23"
-        })
-        console.log(res)
+      customAlert(text){
+        if ( typeof text != "string" ){ return }
+        this.alerterText = text
+        this.alerterActive = true
       },
+
+      hideAlerter(){ this.alerterActive = false },
 
       fullscreenModeOn(){ this.fullscreen.isActive = true },
       fullscreenModeOff(){ this.fullscreen.isActive = false },
@@ -101,7 +116,23 @@
       hidePostCreationField(){ this.postCreationFieldHided = true },
 
       async createPost(putData){
-        return await jsonBodyRequest(`${ apiUrl }/post`, "PUT", putData)
+        let res = await jsonBodyRequest(`${ apiUrl }/post`, "PUT", putData)
+
+        if ( Math.floor(res.status / 100) == 2 ){
+          let createdPost = await res.json()
+
+          console.log(createdPost)
+          if (!createdPost || !createdPost.created){ return }
+
+          this.user.posts.unshift(createdPost.created)
+
+
+          this.customAlert("Post created")
+        } else {
+          this.customAlert(await res.text())
+        }
+
+        return res.status
       }
     },
 
