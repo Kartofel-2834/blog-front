@@ -1,11 +1,11 @@
 <template>
   <div class="center" style="z-index: 1000">
     <alerter
-    :css_classes="[ 'alerter_class' ]"
-    :text="alerterText"
-    :alert_method="customAlert"
-    :alerter_hide_method="hideAlerter"
-    :active="alerterActive"
+      :cssClasses="[ 'alerter_class' ]"
+      :text="alerterText"
+      :alertMethod="customAlert"
+      :alerterHideMethod="hideAlerter"
+      :active="alerterActive"
     ></alerter>
   </div>
 

@@ -5,8 +5,8 @@
 
       <alerter
         :text="alerterText"
-        :alert_method="customAlert"
-        :alerter_hide_method="hideAlerter"
+        :alertMethod="customAlert"
+        :alerterHideMethod="hideAlerter"
         :active="alerterActive"
       ></alerter>
 
@@ -15,15 +15,15 @@
           v-for="key in Object.keys(usersData)"
           :title="key"
           :value="usersData[key].text"
-          :input_listener="inputListener"
-          :title_classes="[ usersData[key].error ? 'error_title' : '' ]"
+          :inputListener="inputListener"
+          :titleClasses="[ usersData[key].error ? 'error_title' : '' ]"
           :placeholder="usersData[key].placeholder"
         ></text-input-form>
 
         <password-input
           :value="password.text"
-          :input_listener="passwordInputListener"
-          :title_classes="[ password.error ? 'error_title' : '' ]"
+          :inputListener="passwordInputListener"
+          :titleClasses="[ password.error ? 'error_title' : '' ]"
           :placeholder="password.placeholder"
         ></password-input>
       </div>

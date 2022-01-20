@@ -2,7 +2,7 @@
   <div class="post_images_inner" v-if="images.length == 1">
     <div class="main_image_inner">
       <img
-        :src="static_src + '/post_images/' + images[0].filename"
+        :src="staticSrc + '/post_images/' + images[0].filename"
         class="main_image"
         @click="imageClickListener(0)"
       >
@@ -13,16 +13,16 @@
 <script>
   export default {
     props: {
-      "static_src": { type: String, default: "" },
+      "staticSrc": { type: String, default: "" },
       "images":{ type: Array, default: [] },
-      "method_for_open_fullscreen": { type: Function, default: ()=>{} },
-      "select_image_group_method": { type: Function, default: ()=>{} },
+      "methodForOpenFullscreen": { type: Function, default: ()=>{} },
+      "selectImageGroupMethod": { type: Function, default: ()=>{} },
     },
 
     methods: {
       imageClickListener(start){
-        this.select_image_group_method(this.images, start)
-        this.method_for_open_fullscreen()
+        this.selectImageGroupMethod(this.images, start)
+        this.methodForOpenFullscreen()
       }
     }
   }

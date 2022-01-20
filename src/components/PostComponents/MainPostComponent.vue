@@ -2,17 +2,16 @@
   <div v-if="post" class="post column">
     <div class="row">
       <avatar
-        v-if="owner_avatar_filename"
-        :img_src="static_src + '/avatars/' + owner_avatar_filename"
-        :frame_classes="['column', 'align', 'short_avatar_inner']"
+        v-if="ownerAvatarFilename"
+        :imgSrc="staticSrc + '/avatars/' + ownerAvatarFilename"
+        :frameClasses="['column', 'align', 'short_avatar_inner']"
       ></avatar>
 
       <div v-else class="short_avatar_inner column align default_avatar"></div>
 
       <div class="column">
         <div class="align post_owner_short_info">
-          <div class="post_owner_name">{{ owner_name }} {{ owner_surname }}</div>
-          <div class="post_owner_tag">{{ owner_tag }}</div>
+          <div class="post_owner_name">{{ ownerName }} {{ ownerSurname }}</div>
         </div>
 
         <gone-time-parser :date="Number(post.date)"></gone-time-parser>
@@ -23,9 +22,9 @@
 
     <image-block
       :images="post.images"
-      :static_src="static_src"
-      :method_for_open_fullscreen="method_for_open_fullscreen"
-      :select_image_group_method="select_image_group_method"
+      :staticSrc="staticSrc"
+      :methodForOpenFullscreen="methodForOpenFullscreen"
+      :selectImageGroupMethod="selectImageGroupMethod"
     ></image-block>
   </div>
 </template>
@@ -38,13 +37,12 @@
   export default {
     props: {
       "post": { type: Object, default: {} },
-      "static_src": { type: String, default: "" },
-      "owner_name": { type: String, default: "" },
-      "owner_surname": { type: String, default: "" },
-      "owner_tag": { type: String, default: "" },
-      "owner_avatar_filename": { type: String, default: "" },
-      "method_for_open_fullscreen": { type: Function, default: ()=>{} },
-      "select_image_group_method": { type: Function, default: ()=>{} },
+      "staticSrc": { type: String, default: "" },
+      "ownerName": { type: String, default: "" },
+      "ownerSurname": { type: String, default: "" },
+      "ownerAvatarFilename": { type: String, default: "" },
+      "methodForOpenFullscreen": { type: Function, default: ()=>{} },
+      "selectImageGroupMethod": { type: Function, default: ()=>{} },
     },
 
     components: {

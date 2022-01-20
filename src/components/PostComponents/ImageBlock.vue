@@ -1,34 +1,34 @@
 <template>
   <!-- 1 photo-->
   <one-image-block
-    :static_src="static_src"
+    :staticSrc="staticSrc"
     :images="images"
-    :method_for_open_fullscreen="method_for_open_fullscreen"
-    :select_image_group_method="select_image_group_method"
+    :methodForOpenFullscreen="methodForOpenFullscreen"
+    :selectImageGroupMethod="selectImageGroupMethod"
   ></one-image-block>
 
   <!-- 2 photo -->
   <two-images-block
-    :static_src="static_src"
+    :staticSrc="staticSrc"
     :images="images"
-    :method_for_open_fullscreen="method_for_open_fullscreen"
-    :select_image_group_method="select_image_group_method"
+    :methodForOpenFullscreen="methodForOpenFullscreen"
+    :selectImageGroupMethod="selectImageGroupMethod"
   ></two-images-block>
 
   <!--3 photo -->
   <three-images-block
-    :static_src="static_src"
+    :staticSrc="staticSrc"
     :images="images"
-    :method_for_open_fullscreen="method_for_open_fullscreen"
-    :select_image_group_method="select_image_group_method"
+    :methodForOpenFullscreen="methodForOpenFullscreen"
+    :selectImageGroupMethod="selectImageGroupMethod"
   ></three-images-block>
 
   <!-- more then 3 photo -->
   <many-images-block
-    :static_src="static_src"
+    :staticSrc="staticSrc"
     :images="images"
-    :method_for_open_fullscreen="method_for_open_fullscreen"
-    :select_image_group_method="select_image_group_method"
+    :methodForOpenFullscreen="methodForOpenFullscreen"
+    :selectImageGroupMethod="selectImageGroupMethod"
   ></many-images-block>
 </template>
 
@@ -41,9 +41,9 @@
   export default {
     props: {
       "images": { type: Array, default: [] },
-      "static_src": { type: String, default: "" },
-      "method_for_open_fullscreen": { type: Function, default: ()=>{} },
-      "select_image_group_method": { type: Function, default: ()=>{} },
+      "staticSrc": { type: String, default: "" },
+      "methodForOpenFullscreen": { type: Function, default: ()=>{} },
+      "selectImageGroupMethod": { type: Function, default: ()=>{} },
     },
 
     components: {

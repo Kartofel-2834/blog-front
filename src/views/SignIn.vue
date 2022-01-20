@@ -5,8 +5,8 @@
 
       <alerter
         :text="alerterText"
-        :alert_method="customAlert"
-        :alerter_hide_method="hideAlerter"
+        :alertMethod="customAlert"
+        :alerterHideMethod="hideAlerter"
         :active="alerterActive"
       ></alerter>
 
@@ -14,12 +14,12 @@
         <text-input-form
           title="mail"
           :value="mail"
-          :input_listener="inputListener"
+          :inputListener="inputListener"
         ></text-input-form>
 
         <password-input
           :value="password"
-          :input_listener="passwordInputListener"
+          :inputListener="passwordInputListener"
         ></password-input>
       </div>
 
@@ -74,7 +74,7 @@
       passwordInputListener(e){ this.password = e.target.value },
 
       async submitButtonClickListener(e){
-        if( !/[a-z]@[a-z]/.test(this.mail) || this.password.length < 6 ){ return }
+        if( !/[a-z]@[a-z]/.test(this.mail) ){ return }
 
         let res = await jsonPostRequest(`${ apiUrl }/signin`, { mail: this.mail, password: this.password })
 

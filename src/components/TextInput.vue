@@ -2,7 +2,7 @@
   <div class="user_info_text_input_inner align">
     <div
       class="input_title column align"
-      :class="titleClasses"
+      :class="titleClassesCheck"
     >
       {{ title[0].toUpperCase() + title.slice(1, title.length) }}:
     </div>
@@ -10,11 +10,11 @@
     <input
       :type="type"
       class="user_info_text_input"
-      :class="input_classes"
+      :class="inputClasses"
       @blur="blurCheck"
       @focus="focusedCheck"
       @input="trueInputListener"
-      @keydown="keydown_listener"
+      @keydown="keydownListener"
       :placeholder="placeholder"
       :value="value"
     >
@@ -28,12 +28,12 @@
       "title": { type: String, default: "Title" },
       "value": { type: String, default: "" },
       "placeholder": { type: String, default: "" },
-      "input_classes": { type: Array, default: [] },
-      "title_classes": { type: Array, default: [] },
-      "blur_listener": { type: Function, default: ()=>{} },
-      "focus_listener": { type: Function, default: ()=>{} },
-      "input_listener": { type: Function, default: ()=>{} },
-      "keydown_listener": { type: Function, default: ()=>{} },
+      "inputClasses": { type: Array, default: [] },
+      "titleClasses": { type: Array, default: [] },
+      "blurListener": { type: Function, default: ()=>{} },
+      "focusListener": { type: Function, default: ()=>{} },
+      "inputListener": { type: Function, default: ()=>{} },
+      "keydownListener": { type: Function, default: ()=>{} },
     },
 
     data(){
@@ -43,22 +43,22 @@
     methods: {
       focusedCheck(e){
         this.focused = true
-        this.focus_listener(e)
+        this.focusListener(e)
       },
 
       blurCheck(e){
         this.focused = false
-        this.blur_listener(e)
+        this.blurListener(e)
       },
 
       trueInputListener(e){
-        this.input_listener(e, this.title)
+        this.inputListener(e, this.title)
       },
     },
 
     computed: {
-      titleClasses(){
-        let ans = new Set(this.title_classes)
+      titleClassesCheck(){
+        let ans = new Set(this.titleClasses)
 
         if ( this.focused ){
           ans.add('input_title_active')

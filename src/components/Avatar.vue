@@ -1,15 +1,15 @@
 <template>
-  <div class="avatar_inner" :class="frame_classes">
-    <img :src="img_src" class="avatar" :class="img_classes">
+  <div class="avatar_inner" :class="frameClasses">
+    <img :src="imgSrc" class="avatar" :class="imgClasses">
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    "img_src": { type: String, default: "" },
-    "frame_classes": { type: Array, default: [] },
-    "img_classes": { type: Array, default: [] }
+    "imgSrc": { type: String, default: "" },
+    "frameClasses": { type: Array, default: [] },
+    "imgClasses": { type: Array, default: [] }
   }
 }
 </script>

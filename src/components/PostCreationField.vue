@@ -5,7 +5,7 @@
   >
     <div class="new_post_top_nav space_between align">
       <div class="row align" style="width: -webkit-fill-available">
-        <div class="post_button close_button" @click="hide_field_method"></div>
+        <div class="post_button close_button" @click="hideFieldMethod"></div>
         <div class="post_field_title">New post:</div>
       </div>
 
@@ -40,11 +40,10 @@
 <script>
   export default {
     props: {
-      "user_id": { type: Number, default: null },
+      "userId": { type: Number, default: null },
       "hided": { type: Boolean, default: true },
-      "hide_field_method": { type: Function, default: ()=>{} },
-      "post_send_method": { type: Function, default: ()=>{} },
-      "alert_method": { type: Function, default: ()=>{} },
+      "hideFieldMethod": { type: Function, default: ()=>{} },
+      "postSendMethod": { type: Function, default: ()=>{} },
     },
 
     data(){
@@ -57,9 +56,9 @@
       },
 
       async createPost(){
-        if ( !this.user_id ){ return }
+        if ( !this.userId ){ return }
 
-        let newPost = { owner_id: this.user_id }
+        let newPost = { owner_id: this.userId }
         const text = this.postText
 
         if ( typeof text == "string" && text.length > 0  && text.length < 5000 ){
@@ -68,10 +67,10 @@
 
         if ( Object.keys(newPost).length < 2 ){ return }
 
-        let status = await this.post_send_method(newPost)
+        let status = await this.postSendMethod(newPost)
 
         if ( Math.floor(status / 100) == 2 ){
-          this.hide_field_method()
+          this.hideFieldMethod()
         }
       }
     },

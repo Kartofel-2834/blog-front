@@ -17,9 +17,9 @@
           class="short_galery_nav_button_inner center align"
           style="color:white"
           :class="{
-            'short_galery_nav_button_inner_active': (ownImgIndex-1) == img_index && ownPageIndex == page_index
+            'short_galery_nav_button_inner_active': (ownImgIndex-1) == imgIndex && ownPageIndex == pageIndex
           }"
-          @click="set_img_index_method(ownImgIndex-1, ownPageIndex)"
+          @click="setImgIndexMethod(ownImgIndex-1, ownPageIndex)"
         >
           <img
             :src="pages[ownPageIndex][ownImgIndex-1]"
@@ -44,16 +44,16 @@
   export default {
     props: {
       "pages": { type: Array, default: [] },
-      "page_index": { type: Number, default: 0 },
-      "img_index": { type: Number, default: 0 },
-      "next_page_method": { type: Function, default: ()=>{} },
-      "prev_page_method": { type: Function, default: ()=>{} },
-      "set_img_index_method": { type: Function, default: ()=>{} },
-      "fullscreen_mode": { type: Boolean, default: false },
+      "pageIndex": { type: Number, default: 0 },
+      "imgIndex": { type: Number, default: 0 },
+      "nextPageMethod": { type: Function, default: ()=>{} },
+      "prevPageMethod": { type: Function, default: ()=>{} },
+      "setImgIndexMethod": { type: Function, default: ()=>{} },
+      "fullscreenMode": { type: Boolean, default: false },
     },
 
     data(){
-      return { ownPageIndex: this.page_index }
+      return { ownPageIndex: this.pageIndex }
     },
 
     methods:{
@@ -76,11 +76,11 @@
 
     computed: {
       ownPageIndexControl(){
-        this.ownPageIndex = this.page_index
+        this.ownPageIndex = this.pageIndex
       },
 
       ownPageIndexToZero(){
-        if ( !this.fullscreen_mode ){ this.ownPageIndex = 0 }
+        if ( !this.fullscreenMode ){ this.ownPageIndex = 0 }
       },
     }
   }

@@ -1,13 +1,13 @@
 <template>
   <div class="user_header" v-if="user">
     <div class="user_hat_inner align center">
-      <img v-if="user.hatPic" :src="static_src + '/hat_pictures/' + user.hatPic.filename" class="user_hat">
+      <img v-if="user.hatPic" :src="staticSrc + '/hat_pictures/' + user.hatPic.filename" class="user_hat">
     </div>
 
     <div class="user_info column align">
       <avatar
         v-if="user.avatar"
-        :img_src="static_src + '/avatars/' + user.avatar.filename"
+        :img_src="staticSrc + '/avatars/' + user.avatar.filename"
         :frame_classes="['column', 'align']"
       ></avatar>
 
@@ -34,7 +34,7 @@
   export default {
     props: {
       "user": { type: Object, default: null },
-      "static_src": { type: String, default: "" }
+      "staticSrc": { type: String, default: "" }
     },
 
     components: {

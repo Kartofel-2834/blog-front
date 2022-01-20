@@ -1,36 +1,34 @@
 <template>
   <fullscreen-mode-component
     :images="fullscreen.images"
-    :fullscreen_mode="fullscreen.isActive"
-    :method_for_close_fullscreen="fullscreenModeOff"
+    :fullscreenMode="fullscreen.isActive"
+    :methodForCloseFullscreen="fullscreenModeOff"
     :index="fullscreen.index"
-    :image_change_method="changeGaleryMainImage"
+    :imageChangeMethod="changeGaleryMainImage"
   ></fullscreen-mode-component>
 
-  <blog-hat :user="user" :static_src="apiUrl"></blog-hat>
+  <blog-hat :user="user" :staticSrc="apiUrl"></blog-hat>
 
   <central-button @click="showPostCreationField"></central-button>
 
   <post-creation-field
-    :user_id="user && user.id ? user.id : null"
-    :hide_field_method="hidePostCreationField"
+    :userId="user && user.id ? user.id : null"
+    :hideFieldMethod="hidePostCreationField"
     :hided="postCreationFieldHided"
-    :post_send_method="createPost"
-    :alert_method="customAlert"
+    :postSendMethod="createPost"
   ></post-creation-field>
 
   <div class="container" v-if="user && user.posts">
     <post-block
       v-for="postObj in user.posts"
       :key="postObj.id"
-      :static_src="apiUrl"
-      :owner_name="user.name"
-      :owner_surname="user.surname"
-      :owner_tag="user.tag"
-      :owner_avatar_filename="user.avatar ? user.avatar.filename : null"
+      :staticSrc="apiUrl"
+      :ownerName="user.name"
+      :ownerSurname="user.surname"
+      :ownerAvatarFilename="user.avatar ? user.avatar.filename : null"
       :post="postObj"
-      :method_for_open_fullscreen="fullscreenModeOn"
-      :select_image_group_method="selectImageGroup"
+      :methodForOpenFullscreen="fullscreenModeOn"
+      :selectImageGroupMethod="selectImageGroup"
     ></post-block>
 
     <!--<img src="@/assets/user_hats/rei_swimming.jpg">-->
@@ -40,8 +38,8 @@
   <div class="center">
     <alerter
       :text="alerterText"
-      :alert_method="customAlert"
-      :alerter_hide_method="hideAlerter"
+      :alertMethod="customAlert"
+      :alerterHideMethod="hideAlerter"
       :active="alerterActive"
     ></alerter>
   </div>
@@ -157,7 +155,10 @@
 
       user.posts = user.posts.map( (p)=>{
         let ans = p
-        ans.images = [ { filename: "snake.png" }, { filename: "111.jpg" } ]
+        ans.images = [
+          { filename: "333.jpg" },
+          { filename: "111.jpg" },
+        ]
         return ans
       }).reverse()
 

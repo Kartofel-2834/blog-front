@@ -4,9 +4,9 @@
       title="Password"
       :value="value"
       :type="passwordShowed ? 'text' : 'password'"
-      :input_listener="input_listener"
+      :inputListener="inputListener"
       :placeholder="placeholder"
-      :title_classes="title_classes"
+      :titleClasses="titleClasses"
     ></text-input-form>
 
     <div
@@ -24,8 +24,8 @@
     props: {
       "value": { type: String, default: "" },
       "placeholder": { type: String, default: "" },
-      "title_classes": { type: Array, default: [] },
-      "input_listener": { type: Function, default: ()=>{} },
+      "titleClasses": { type: Array, default: [] },
+      "inputListener": { type: Function, default: ()=>{} },
     },
 
     data(){

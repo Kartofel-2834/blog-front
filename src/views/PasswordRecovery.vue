@@ -5,8 +5,8 @@
 
       <alerter
         :text="alerterText"
-        :alert_method="customAlert"
-        :alerter_hide_method="hideAlerter"
+        :alertMethod="customAlert"
+        :alerterHideMethod="hideAlerter"
         :active="alerterActive"
       ></alerter>
 
@@ -14,13 +14,13 @@
         <text-input-form
           title="mail"
           :value="mail"
-          :input_listener="inputListener"
+          :inputListener="inputListener"
         ></text-input-form>
 
         <password-input
           :value="password.text"
-          :input_listener="passwordInputListener"
-          :title_classes="[ password.error ? 'error_title' : '' ]"
+          :inputListener="passwordInputListener"
+          :titleClasses="[ password.error ? 'error_title' : '' ]"
           :placeholder="password.placeholder"
         ></password-input>
 
@@ -28,8 +28,8 @@
           <text-input-form
             title="token"
             :value="token"
-            :input_listener="inputListener"
-            :keydown_listener="tokenKeydownListener"
+            :inputListener="inputListener"
+            :keydownListener="tokenKeydownListener"
           ></text-input-form>
 
           <div class="link" @click="sendToken">Send token again</div>

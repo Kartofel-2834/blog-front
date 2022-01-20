@@ -35,12 +35,12 @@
 
     <galery-images-row
       :pages="pages"
-      :next_page_method="nextPage"
-      :prev_page_method="prevPage"
-      :page_index="pageIndex"
-      :set_img_index_method="setImageIndex"
-      :fullscreen_mode="fullscreen_mode"
-      :img_index="imgIndex"
+      :nextPageMethod="nextPage"
+      :prevPageMethod="prevPage"
+      :pageIndex="pageIndex"
+      :setImgIndexMethod="setImageIndex"
+      :fullscreenMode="fullscreenMode"
+      :imgIndex="imgIndex"
     ></galery-images-row>
   </div>
 </template>
@@ -50,11 +50,11 @@
 
   export default {
       props: {
-        "method_for_close_fullscreen": { type: Function, default: ()=>{} },
-        "fullscreen_mode": { type: Boolean, default: false },
+        "methodForCloseFullscreen": { type: Function, default: ()=>{} },
+        "fullscreenMode": { type: Boolean, default: false },
         "images": { type: Array, default: [] },
         "index": { type: Number, default: 0 },
-        "image_change_method": { type: Function, default: ()=>{} },
+        "imageChangeMethod": { type: Function, default: ()=>{} },
         "rowleng": { type: Number, default: 5 },
       },
 
@@ -130,13 +130,13 @@
 
           if ( clickPath.indexOf('blackholeContent') != -1 ){ return }
 
-          this.method_for_close_fullscreen()
+          this.methodForCloseFullscreen()
         }
       },
 
       computed: {
         fullscreenModeChangeListener(){
-          if ( this.fullscreen_mode ){
+          if ( this.fullscreenMode ){
             this.showBlackhole()
           } else {
             this.hideBlackhole()
@@ -161,11 +161,10 @@
           if ( buff.length > 0 ){ answer.push(buff) }
 
           this.pages = answer
-          console.log(this.pages)
         },
 
         imageIndexControl(){
-          this.image_change_method(this.imgIndex+(this.pageIndex * this.rowleng))
+          this.imageChangeMethod(this.imgIndex+(this.pageIndex * this.rowleng))
         },
 
         pageIndexControl(){
