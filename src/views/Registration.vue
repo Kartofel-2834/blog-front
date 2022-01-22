@@ -5,9 +5,8 @@
 
       <alerter
         :text="alerterText"
-        :alertMethod="customAlert"
-        :alerterHideMethod="hideAlerter"
         :active="alerterActive"
+        @hideAlerter="hideAlerter"
       ></alerter>
 
       <div class="inputs_inner column">
@@ -15,16 +14,16 @@
           v-for="key in Object.keys(usersData)"
           :title="key"
           :value="usersData[key].text"
-          :inputListener="inputListener"
           :titleClasses="[ usersData[key].error ? 'error_title' : '' ]"
           :placeholder="usersData[key].placeholder"
+          @input="inputListener"
         ></text-input-form>
 
         <password-input
           :value="password.text"
-          :inputListener="passwordInputListener"
           :titleClasses="[ password.error ? 'error_title' : '' ]"
           :placeholder="password.placeholder"
+          @input="passwordInputListener"
         ></password-input>
       </div>
 

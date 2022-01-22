@@ -9,14 +9,16 @@
 
     <input
       :type="type"
-      class="user_info_text_input"
+      :value="value"
+      :placeholder="placeholder"
+
       :class="inputClasses"
+      class="user_info_text_input"
+
       @blur="blurCheck"
       @focus="focusedCheck"
       @input="trueInputListener"
-      @keydown="keydownListener"
-      :placeholder="placeholder"
-      :value="value"
+      @keydown="$emit('keydown', e)"
     >
   </div>
 </template>
@@ -30,11 +32,14 @@
       "placeholder": { type: String, default: "" },
       "inputClasses": { type: Array, default: [] },
       "titleClasses": { type: Array, default: [] },
+
       "blurListener": { type: Function, default: ()=>{} },
       "focusListener": { type: Function, default: ()=>{} },
       "inputListener": { type: Function, default: ()=>{} },
       "keydownListener": { type: Function, default: ()=>{} },
     },
+
+    emits: [ 'focus', 'blur', 'input', 'keydown' ],
 
     data(){
       return { focused: false }
@@ -43,16 +48,16 @@
     methods: {
       focusedCheck(e){
         this.focused = true
-        this.focusListener(e)
+        this.$emit('focus', e)
       },
 
       blurCheck(e){
         this.focused = false
-        this.blurListener(e)
+        this.$emit('blur', e)
       },
 
       trueInputListener(e){
-        this.inputListener(e, this.title)
+        this.$emit('input', e, this.title)
       },
     },
 

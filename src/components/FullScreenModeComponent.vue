@@ -35,12 +35,11 @@
 
     <galery-images-row
       :pages="pages"
-      :nextPageMethod="nextPage"
-      :prevPageMethod="prevPage"
       :pageIndex="pageIndex"
-      :setImgIndexMethod="setImageIndex"
-      :fullscreenMode="fullscreenMode"
       :imgIndex="imgIndex"
+      :fullscreenMode="fullscreenMode"
+
+      @setImageIndex="setImageIndex"
     ></galery-images-row>
   </div>
 </template>
@@ -50,13 +49,13 @@
 
   export default {
       props: {
-        "methodForCloseFullscreen": { type: Function, default: ()=>{} },
         "fullscreenMode": { type: Boolean, default: false },
         "images": { type: Array, default: [] },
         "index": { type: Number, default: 0 },
-        "imageChangeMethod": { type: Function, default: ()=>{} },
         "rowleng": { type: Number, default: 5 },
       },
+
+      emits: [ "exitFullscreen", "changeImage" ],
 
       data(){
         return {
@@ -130,7 +129,7 @@
 
           if ( clickPath.indexOf('blackholeContent') != -1 ){ return }
 
-          this.methodForCloseFullscreen()
+          this.$emit('exitFullscreen')
         }
       },
 
@@ -164,7 +163,7 @@
         },
 
         imageIndexControl(){
-          this.imageChangeMethod(this.imgIndex+(this.pageIndex * this.rowleng))
+          this.$emit("changeImage", this.imgIndex+(this.pageIndex * this.rowleng))
         },
 
         pageIndexControl(){

@@ -5,31 +5,30 @@
 
       <alerter
         :text="alerterText"
-        :alertMethod="customAlert"
-        :alerterHideMethod="hideAlerter"
         :active="alerterActive"
+        @hideAlerter="hideAlerter"
       ></alerter>
 
       <div class="inputs_inner column">
         <text-input-form
           title="mail"
           :value="mail"
-          :inputListener="inputListener"
+          @input="inputListener"
         ></text-input-form>
 
         <password-input
           :value="password.text"
-          :inputListener="passwordInputListener"
           :titleClasses="[ password.error ? 'error_title' : '' ]"
           :placeholder="password.placeholder"
+          @input="passwordInputListener"
         ></password-input>
 
         <div class="column align" :class="{ 'height_hide': !tokenAlreadySend }" style="margin-top:3rem">
           <text-input-form
             title="token"
             :value="token"
-            :inputListener="inputListener"
-            :keydownListener="tokenKeydownListener"
+            @input="inputListener"
+            @keydown="tokenKeydownListener"
           ></text-input-form>
 
           <div class="link" @click="sendToken">Send token again</div>

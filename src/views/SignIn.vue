@@ -5,21 +5,20 @@
 
       <alerter
         :text="alerterText"
-        :alertMethod="customAlert"
-        :alerterHideMethod="hideAlerter"
         :active="alerterActive"
+        @hideAlerter="hideAlerter"
       ></alerter>
 
       <div class="inputs_inner column">
         <text-input-form
           title="mail"
           :value="mail"
-          :inputListener="inputListener"
+          @input="inputListener"
         ></text-input-form>
 
         <password-input
           :value="password"
-          :inputListener="passwordInputListener"
+          @input="passwordInputListener"
         ></password-input>
       </div>
 

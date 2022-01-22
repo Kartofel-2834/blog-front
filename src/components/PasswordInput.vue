@@ -4,9 +4,10 @@
       title="Password"
       :value="value"
       :type="passwordShowed ? 'text' : 'password'"
-      :inputListener="inputListener"
       :placeholder="placeholder"
       :titleClasses="titleClasses"
+
+      @input="inputListener"
     ></text-input-form>
 
     <div
@@ -25,18 +26,21 @@
       "value": { type: String, default: "" },
       "placeholder": { type: String, default: "" },
       "titleClasses": { type: Array, default: [] },
-      "inputListener": { type: Function, default: ()=>{} },
     },
 
     data(){
       return { passwordShowed: false }
     },
 
+    emits: [ 'input' ],
+
     components: {
       "text-input-form": TextInput,
     },
 
     methods: {
+      inputListener(e){ this.$emit('input', e) },
+      
       changePasswordInputType(){ this.passwordShowed = !this.passwordShowed },
     },
   }

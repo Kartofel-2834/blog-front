@@ -15,15 +15,15 @@
     props: {
       "staticSrc": { type: String, default: "" },
       "images":{ type: Array, default: [] },
-      "methodForOpenFullscreen": { type: Function, default: ()=>{} },
-      "selectImageGroupMethod": { type: Function, default: ()=>{} },
     },
+
+    emits: [ "openInFullscreen", "setImageGroup" ],
 
     methods: {
       imageClickListener(start){
-        this.selectImageGroupMethod(this.images, start)
-        this.methodForOpenFullscreen()
+        this.$emit('setImageGroup', this.images, start)
+        this.$emit('openInFullscreen')
       }
-    }
+    },
   }
 </script>

@@ -5,7 +5,7 @@
   >
     <div class="new_post_top_nav space_between align">
       <div class="row align" style="width: -webkit-fill-available">
-        <div class="post_button close_button" @click="hideFieldMethod"></div>
+        <div class="post_button close_button" @click="closeField"></div>
         <div class="post_field_title">New post:</div>
       </div>
 
@@ -42,15 +42,17 @@
     props: {
       "userId": { type: Number, default: null },
       "hided": { type: Boolean, default: true },
-      "hideFieldMethod": { type: Function, default: ()=>{} },
-      "postSendMethod": { type: Function, default: ()=>{} },
     },
+
+    emits: [ 'hideField', 'createPost' ],
 
     data(){
       return { postText: "" }
     },
 
     methods: {
+      closeField(){ this.$emit('hideField') },
+
       textareaInput(e){
         this.postText = e.target.value
       },
@@ -67,7 +69,8 @@
 
         if ( Object.keys(newPost).length < 2 ){ return }
 
-        let status = await this.postSendMethod(newPost)
+        let status = await this.$emit('createPost', newPost)
+
 
         if ( Math.floor(status / 100) == 2 ){
           this.hideFieldMethod()

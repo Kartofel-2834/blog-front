@@ -19,7 +19,7 @@
           :class="{
             'short_galery_nav_button_inner_active': (ownImgIndex-1) == imgIndex && ownPageIndex == pageIndex
           }"
-          @click="setImgIndexMethod(ownImgIndex-1, ownPageIndex)"
+          @click="setPageAndImgIndex(ownImgIndex-1, ownPageIndex)"
         >
           <img
             :src="pages[ownPageIndex][ownImgIndex-1]"
@@ -46,17 +46,20 @@
       "pages": { type: Array, default: [] },
       "pageIndex": { type: Number, default: 0 },
       "imgIndex": { type: Number, default: 0 },
-      "nextPageMethod": { type: Function, default: ()=>{} },
-      "prevPageMethod": { type: Function, default: ()=>{} },
-      "setImgIndexMethod": { type: Function, default: ()=>{} },
       "fullscreenMode": { type: Boolean, default: false },
     },
+
+    emits: [ "setImageIndex" ],
 
     data(){
       return { ownPageIndex: this.pageIndex }
     },
 
     methods:{
+      setPageAndImgIndex(imgIndex, pageIndex){
+        this.$emit("setImageIndex", imgIndex, pageIndex)
+      },
+
       nextNavPage(){
         if ( this.ownPageIndex+1 == this.pages.length ){
           this.ownPageIndex = 0

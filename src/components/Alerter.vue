@@ -1,5 +1,5 @@
 <template>
-  <div class="alerter" @click="alerterHideMethod" :class="hideControl">{{ text }}</div>
+  <div class="alerter" @click="$emit('hideAlerter')" :class="hideControl">{{ text }}</div>
 </template>
 
 <script>
@@ -8,9 +8,9 @@
      "cssClasses": { type: Array, default: [] },
      "text": { type: String, default: "" },
      "active": { type: Boolean, default: false },
-     "alertMethod": { type: Function, default: ()=>{} },
-     "alerterHideMethod": { type: Function, default: ()=>{} },
    },
+
+   emits: [ "hideAlerter" ],
 
    data(){
      return { cssClassesUnic: new Set() }
@@ -25,7 +25,7 @@
      show(){
        this.cssClassesUnic.delete("hide")
        setTimeout(()=>{ this.cssClassesUnic.delete("hide_opacity") }, 300)
-       setTimeout(()=>{ this.alerterHideMethod() }, 3500)
+       setTimeout(()=>{ this.$emit('hideAlerter') }, 3500)
      },
    },
 

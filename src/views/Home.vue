@@ -2,9 +2,10 @@
   <fullscreen-mode-component
     :images="fullscreen.images"
     :fullscreenMode="fullscreen.isActive"
-    :methodForCloseFullscreen="fullscreenModeOff"
     :index="fullscreen.index"
-    :imageChangeMethod="changeGaleryMainImage"
+
+    @exitFullscreen="fullscreenModeOff"
+    @changeImage="changeGaleryMainImage"
   ></fullscreen-mode-component>
 
   <blog-hat :user="user" :staticSrc="apiUrl"></blog-hat>
@@ -13,9 +14,10 @@
 
   <post-creation-field
     :userId="user && user.id ? user.id : null"
-    :hideFieldMethod="hidePostCreationField"
     :hided="postCreationFieldHided"
-    :postSendMethod="createPost"
+
+    @createPost="createPost"
+    @hideField="hidePostCreationField"
   ></post-creation-field>
 
   <div class="container" v-if="user && user.posts">
@@ -27,8 +29,9 @@
       :ownerSurname="user.surname"
       :ownerAvatarFilename="user.avatar ? user.avatar.filename : null"
       :post="postObj"
-      :methodForOpenFullscreen="fullscreenModeOn"
-      :selectImageGroupMethod="selectImageGroup"
+
+      @openInFullscreen="fullscreenModeOn"
+      @setImageGroup="selectImageGroup"
     ></post-block>
 
     <!--<img src="@/assets/user_hats/rei_swimming.jpg">-->
@@ -38,9 +41,8 @@
   <div class="center">
     <alerter
       :text="alerterText"
-      :alertMethod="customAlert"
-      :alerterHideMethod="hideAlerter"
       :active="alerterActive"
+      @hideAlerter="hideAlerter"
     ></alerter>
   </div>
 
@@ -119,13 +121,12 @@
         if ( Math.floor(res.status / 100) == 2 ){
           let createdPost = await res.json()
 
-          console.log(createdPost)
           if (!createdPost || !createdPost.created){ return }
 
           this.user.posts.unshift(createdPost.created)
 
-
           this.customAlert("Post created")
+          this.hidePostCreationField()
         } else {
           this.customAlert(await res.text())
         }

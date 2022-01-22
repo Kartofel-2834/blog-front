@@ -23,8 +23,9 @@
     <image-block
       :images="post.images"
       :staticSrc="staticSrc"
-      :methodForOpenFullscreen="methodForOpenFullscreen"
-      :selectImageGroupMethod="selectImageGroupMethod"
+
+      @openInFullscreen="fullscreenModeOn"
+      @setImageGroup="selectImageGroup"
     ></image-block>
   </div>
 </template>
@@ -41,8 +42,16 @@
       "ownerName": { type: String, default: "" },
       "ownerSurname": { type: String, default: "" },
       "ownerAvatarFilename": { type: String, default: "" },
-      "methodForOpenFullscreen": { type: Function, default: ()=>{} },
-      "selectImageGroupMethod": { type: Function, default: ()=>{} },
+    },
+
+    emits: [ "openInFullscreen", "setImageGroup" ],
+
+    methods: {
+      fullscreenModeOn(){ this.$emit('openInFullscreen') },
+
+      selectImageGroup(images, start){
+        this.$emit('setImageGroup', images, start)
+      },
     },
 
     components: {

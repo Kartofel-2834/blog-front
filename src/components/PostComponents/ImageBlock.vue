@@ -3,32 +3,36 @@
   <one-image-block
     :staticSrc="staticSrc"
     :images="images"
-    :methodForOpenFullscreen="methodForOpenFullscreen"
-    :selectImageGroupMethod="selectImageGroupMethod"
+
+    @openInFullscreen="fullscreenModeOn"
+    @setImageGroup="selectImageGroup"
   ></one-image-block>
 
   <!-- 2 photo -->
   <two-images-block
     :staticSrc="staticSrc"
     :images="images"
-    :methodForOpenFullscreen="methodForOpenFullscreen"
-    :selectImageGroupMethod="selectImageGroupMethod"
+
+    @openInFullscreen="fullscreenModeOn"
+    @setImageGroup="selectImageGroup"
   ></two-images-block>
 
   <!--3 photo -->
   <three-images-block
     :staticSrc="staticSrc"
     :images="images"
-    :methodForOpenFullscreen="methodForOpenFullscreen"
-    :selectImageGroupMethod="selectImageGroupMethod"
+
+    @openInFullscreen="fullscreenModeOn"
+    @setImageGroup="selectImageGroup"
   ></three-images-block>
 
   <!-- more then 3 photo -->
   <many-images-block
     :staticSrc="staticSrc"
     :images="images"
-    :methodForOpenFullscreen="methodForOpenFullscreen"
-    :selectImageGroupMethod="selectImageGroupMethod"
+
+    @openInFullscreen="fullscreenModeOn"
+    @setImageGroup="selectImageGroup"
   ></many-images-block>
 </template>
 
@@ -42,8 +46,16 @@
     props: {
       "images": { type: Array, default: [] },
       "staticSrc": { type: String, default: "" },
-      "methodForOpenFullscreen": { type: Function, default: ()=>{} },
-      "selectImageGroupMethod": { type: Function, default: ()=>{} },
+    },
+
+    emits: [ "openInFullscreen", "setImageGroup" ],
+
+    methods: {
+      fullscreenModeOn(){ this.$emit('openInFullscreen') },
+
+      selectImageGroup(images, start){
+        this.$emit('setImageGroup', images, start)
+      },
     },
 
     components: {

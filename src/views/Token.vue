@@ -3,9 +3,9 @@
     <alerter
       :cssClasses="[ 'alerter_class' ]"
       :text="alerterText"
-      :alertMethod="customAlert"
-      :alerterHideMethod="hideAlerter"
       :active="alerterActive"
+
+      @hideAlerter="hideAlerter"
     ></alerter>
   </div>
 
