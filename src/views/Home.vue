@@ -116,6 +116,9 @@
       hidePostCreationField(){ this.postCreationFieldHided = true },
 
       async createPost(putData){
+        let res = await fetch(`${ apiUrl }/post`, { method: "PUT", body: putData })
+
+        /*
         let res = await jsonBodyRequest(`${ apiUrl }/post`, "PUT", putData)
 
         if ( Math.floor(res.status / 100) == 2 ){
@@ -130,7 +133,7 @@
         } else {
           this.customAlert(await res.text())
         }
-
+        */
         return res.status
       }
     },

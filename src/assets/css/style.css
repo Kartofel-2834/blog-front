@@ -1,7 +1,39 @@
+*::-webkit-scrollbar{
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+}
+
+*::-webkit-scrollbar{
+  cursor: pointer;
+}
+
+*::-webkit-scrollbar-thumb {
+  -webkit-appearance: none;
+  border-radius: 10px;
+  background-color: #606060;
+}
+
+*::-webkit-scrollbar-track-piece{
+  background-color: #ffffff4a;
+}
+
 *{
   margin: 0;
   font-family: 'Roboto Slab', serif;
   color: #1c1c1c;
+}
+
+.grid_layout_inner{
+  display:grid;
+  grid-auto-rows: 100%;
+  grid-auto-columns: 100%;
+}
+
+.grid_layout_element{
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
 }
 
 .hide{
@@ -60,6 +92,11 @@
   background-color: white;
   transform: scale(1.05);
 }
+
+.no_scale{ transform: scale(0) }
+
+.normal_scale{ transform: scale(1) }
+
 
 .alerter{
   position: fixed;
