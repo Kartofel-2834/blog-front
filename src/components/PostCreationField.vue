@@ -15,6 +15,7 @@
 
     <textarea
       class="new_post_text_input"
+      :value="postText"
       @input="textareaInput"
       placeholder="Write here everything you want"
     ></textarea>
@@ -39,6 +40,7 @@
         <div class="file_square_inner">
           <cliped-file
             v-for="file in files"
+            :key="file.id"
             :filename="file.name"
             :fileId="file.id"
 
@@ -152,25 +154,10 @@
 
         let status = await this.$emit('createPost', newPost)
 
-        if ( Math.floor(status / 100) == 2 ){
-          this.hideFieldMethod()
-        }
-        /*
-        let newPost = { owner_id: this.userId }
-        const text = this.postText
+        this.postText = ""
+        this.files = []
 
-        if ( typeof text == "string" && text.length > 0  && text.length < 5000 ){
-          newPost.text = text
-        }
-
-        if ( Object.keys(newPost).length < 2 ){ return }
-
-        let status = await this.$emit('createPost', newPost)
-
-        if ( Math.floor(status / 100) == 2 ){
-          this.hideFieldMethod()
-        }
-        */
+        if ( Math.floor(status / 100) == 2 ){ this.hideFieldMethod() }
       }
     },
   }

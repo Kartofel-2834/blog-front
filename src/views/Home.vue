@@ -118,9 +118,6 @@
       async createPost(putData){
         let res = await fetch(`${ apiUrl }/post`, { method: "PUT", body: putData })
 
-        /*
-        let res = await jsonBodyRequest(`${ apiUrl }/post`, "PUT", putData)
-
         if ( Math.floor(res.status / 100) == 2 ){
           let createdPost = await res.json()
 
@@ -133,7 +130,7 @@
         } else {
           this.customAlert(await res.text())
         }
-        */
+
         return res.status
       }
     },
@@ -157,6 +154,7 @@
         this.$router.push("/signin"); return
       }
 
+      /*
       user.posts = user.posts.map( (p)=>{
         let ans = p
         ans.images = [
@@ -165,6 +163,7 @@
         ]
         return ans
       }).reverse()
+      */
 
       this.user = user
     }
