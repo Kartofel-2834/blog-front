@@ -154,17 +154,6 @@
         this.$router.push("/signin"); return
       }
 
-      /*
-      user.posts = user.posts.map( (p)=>{
-        let ans = p
-        ans.images = [
-          { filename: "333.jpg" },
-          { filename: "111.jpg" },
-        ]
-        return ans
-      }).reverse()
-      */
-
       this.user = user
     }
   }

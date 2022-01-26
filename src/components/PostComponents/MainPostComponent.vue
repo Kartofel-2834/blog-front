@@ -1,6 +1,6 @@
 <template>
   <div v-if="post" class="post column">
-    <div class="row">
+    <div class="row align">
       <avatar
         v-if="ownerAvatarFilename"
         :imgSrc="staticSrc + '/avatars/' + ownerAvatarFilename"
@@ -9,13 +9,29 @@
 
       <div v-else class="short_avatar_inner column align default_avatar"></div>
 
-      <div class="column">
-        <div class="align post_owner_short_info">
-          <div class="post_owner_name">{{ ownerName }} {{ ownerSurname }}</div>
+      <div class="post_top_nav space_between">
+        <div class="column">
+          <div class="align post_owner_short_info">
+            <div class="post_owner_name">{{ ownerName }} {{ ownerSurname }}</div>
+          </div>
+
+          <gone-time-parser :date="Number(post.date)"></gone-time-parser>
         </div>
 
-        <gone-time-parser :date="Number(post.date)"></gone-time-parser>
+        <div class="post_buble_menu_inner grid_layout_inner">
+          <div class="grid_layout_element" style="z-index: 20" @click="openBubleMenu">
+            <div class="buble_inner column">
+              <div class="just_buble"></div>
+              <div class="just_buble"></div>
+              <div class="just_buble"></div>
+            </div>
+          </div>
+
+          <div class="buble_menu" :class="{ 'buble_menu_opened': bubleMenuOpened }"></div>
+        </div>
+
       </div>
+
     </div>
 
     <div class="post_text">{{ post.text }}</div>
@@ -46,7 +62,11 @@
 
     emits: [ "openInFullscreen", "setImageGroup" ],
 
+    data(){ return { bubleMenuOpened: false } },
+
     methods: {
+      openBubleMenu(){ this.bubleMenuOpened = true },
+
       fullscreenModeOn(){ this.$emit('openInFullscreen') },
 
       selectImageGroup(images, start){
