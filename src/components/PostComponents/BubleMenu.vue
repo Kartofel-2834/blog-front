@@ -12,6 +12,7 @@
       <buble-menu-element
         :cssClasses="['delete_post_button']"
         :hoverIconClasses="['delete_icon_active']"
+        @click="$emit('deletePost')"
       ></buble-menu-element>
     </div>
   </div>
@@ -25,6 +26,6 @@
 
     components: { "buble-menu-element": BubleMenuElement },
 
-    emits: [ "open", "close" ],
+    emits: [ "open", "close", "deletePost" ],
   }
 </script>

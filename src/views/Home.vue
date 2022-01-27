@@ -32,6 +32,7 @@
 
       @openInFullscreen="fullscreenModeOn"
       @setImageGroup="selectImageGroup"
+      @deletePost="deletePost"
     ></post-block>
 
     <!--<img src="@/assets/user_hats/rei_swimming.jpg">-->
@@ -132,6 +133,20 @@
         }
 
         return res.status
+      },
+
+      async deletePost(id){
+        let postsIds = this.user.posts.map( p => p.id )
+        let index = postsIds.indexOf(id)
+
+        if ( index == -1 ){
+          this.customAlert("Failed to delete post"); return
+        }
+
+        this.user.posts.splice(index, 1)
+
+        let res = await jsonBodyRequest(`${ apiUrl }/post`, "DELETE", { postId: id })
+        console.log(res)
       }
     },
 

@@ -18,7 +18,12 @@
           <gone-time-parser :date="Number(post.date)"></gone-time-parser>
         </div>
 
-        <buble-menu @open="openBubleMenu" @close="closeBubleMenu" :opened="bubleMenuOpened"></buble-menu>
+        <buble-menu
+          @open="openBubleMenu"
+          @close="closeBubleMenu"
+          @deletePost="$emit('deletePost', post.id)"
+          :opened="bubleMenuOpened"
+        ></buble-menu>
       </div>
 
     </div>
@@ -50,7 +55,7 @@
       "ownerAvatarFilename": { type: String, default: "" },
     },
 
-    emits: [ "openInFullscreen", "setImageGroup" ],
+    emits: [ "openInFullscreen", "setImageGroup", "deletePost" ],
 
     data(){ return { bubleMenuOpened: false } },
 
@@ -72,6 +77,8 @@
       selectImageGroup(images, start){
         this.$emit('setImageGroup', images, start)
       },
+
+
     },
 
     components: {
