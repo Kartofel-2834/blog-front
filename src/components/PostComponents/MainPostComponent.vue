@@ -1,5 +1,5 @@
 <template>
-  <div v-if="post" class="post column">
+  <div v-if="post" class="post column" @click="postClick">
     <div class="row align">
       <avatar
         v-if="ownerAvatarFilename"
@@ -18,18 +18,7 @@
           <gone-time-parser :date="Number(post.date)"></gone-time-parser>
         </div>
 
-        <div class="post_buble_menu_inner grid_layout_inner">
-          <div class="grid_layout_element" style="z-index: 20" @click="openBubleMenu">
-            <div class="buble_inner column">
-              <div class="just_buble"></div>
-              <div class="just_buble"></div>
-              <div class="just_buble"></div>
-            </div>
-          </div>
-
-          <div class="buble_menu" :class="{ 'buble_menu_opened': bubleMenuOpened }"></div>
-        </div>
-
+        <buble-menu @open="openBubleMenu" @close="closeBubleMenu" :opened="bubleMenuOpened"></buble-menu>
       </div>
 
     </div>
@@ -50,6 +39,7 @@
   import Avatar from "@/components/Avatar.vue"
   import GoneTimeParser from "./GoneTimeParser.vue"
   import ImageBlock from "./ImageBlock.vue"
+  import BubleMenu from "./BubleMenu.vue"
 
   export default {
     props: {
@@ -65,7 +55,17 @@
     data(){ return { bubleMenuOpened: false } },
 
     methods: {
+      postClick(e){
+        let clickPath = e.path.map(d => d.id)
+        let clickedOn = (id)=>{ return clickPath.indexOf(id) != -1 }
+
+        if ( !clickedOn("bubleMenu") && !clickedOn("bubleButton") && this.bubleMenuOpened ){
+          this.closeBubleMenu()
+        }
+      },
+
       openBubleMenu(){ this.bubleMenuOpened = true },
+      closeBubleMenu(){ this.bubleMenuOpened = false },
 
       fullscreenModeOn(){ this.$emit('openInFullscreen') },
 
@@ -78,6 +78,7 @@
       "avatar": Avatar,
       "gone-time-parser": GoneTimeParser,
       "image-block": ImageBlock,
+      "buble-menu": BubleMenu,
     },
   }
 </script>
