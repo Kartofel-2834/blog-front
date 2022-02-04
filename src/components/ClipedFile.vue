@@ -1,13 +1,13 @@
 <template>
   <div
-    class="file_square grid_layout_inner"
+    class="cliped_file"
     :class="{ 'no_scale': !isCreated }"
 
     @click="remove"
     @mouseover="hoverOn"
     @mouseout="hoverOff"
   >
-    <div class="file_image_icon" :class="{ 'no_scale': hover }"></div>
+    <div class="cliped_image" :class="{ 'no_scale': hover }"></div>
   </div>
 </template>
 

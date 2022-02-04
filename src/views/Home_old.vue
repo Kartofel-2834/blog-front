@@ -1,21 +1,16 @@
 <template>
-  <div class="blog_hat"></div>
+  <fullscreen-mode-component
+    :images="fullscreen.images"
+    :fullscreenMode="fullscreen.isActive"
+    :index="fullscreen.index"
 
-  <div class="wrapper">
-    <main-user-info v-if="user" :user="user" @postCreationFieldOpen="showPostCreationField"></main-user-info>
+    @exitFullscreen="fullscreenModeOff"
+    @changeImage="changeGaleryMainImage"
+  ></fullscreen-mode-component>
 
-    <post
-      v-if="user && user.posts"
-      v-for="post in user.posts"
-      :post="post"
-      :key="post.id"
-      :userName="user.name"
-      :userSurname="user.surname"
-      :staticSrc="apiUrl"
+  <blog-hat :user="user" :staticSrc="apiUrl"></blog-hat>
 
-      @deletePost="deletePost"
-    ></post>
-  </div>
+  <central-button @click="showPostCreationField"></central-button>
 
   <post-creation-field
     :userId="user && user.id ? user.id : null"
@@ -25,6 +20,25 @@
     @hideField="hidePostCreationField"
   ></post-creation-field>
 
+  <div class="container" v-if="user && user.posts">
+    <post-block
+      v-for="postObj in user.posts"
+      :key="postObj.id"
+      :staticSrc="apiUrl"
+      :ownerName="user.name"
+      :ownerSurname="user.surname"
+      :ownerAvatarFilename="user.avatar ? user.avatar.filename : null"
+      :post="postObj"
+
+      @openInFullscreen="fullscreenModeOn"
+      @setImageGroup="selectImageGroup"
+      @deletePost="deletePost"
+    ></post-block>
+
+    <!--<img src="@/assets/user_hats/rei_swimming.jpg">-->
+
+  </div>
+
   <div class="center">
     <alerter
       :text="alerterText"
@@ -32,15 +46,17 @@
       @hideAlerter="hideAlerter"
     ></alerter>
   </div>
+
 </template>
 
 <style src="@/assets/css/home.css"></style>
 
 <script>
-  import MainUserInfo from "@/components/UserInfo.vue"
-  import PostBlock from "@/components/Post.vue"
-
+  import UserBlogHat from '@/components/UserHatComponents/UserBlogHat.vue'
+  import CentralButton from '@/components/CentralButton.vue'
   import PostCreationField from '@/components/PostCreationField.vue'
+  import PostComponent from '@/components/PostComponents/MainPostComponent.vue'
+  import FullScreenModeComponent from '@/components/FullScreenModeComponent.vue'
   import Alerter from "@/components/Alerter.vue"
 
   import Helpers from "@/utils/helpers.js"
@@ -68,9 +84,10 @@
     },
 
     components: {
-      "main-user-info": MainUserInfo,
-      "post": PostBlock,
-
+      "blog-hat": UserBlogHat,
+      "post-block": PostComponent,
+      "fullscreen-mode-component": FullScreenModeComponent,
+      "central-button": CentralButton,
       "post-creation-field": PostCreationField,
       "alerter": Alerter,
     },
@@ -155,4 +172,5 @@
       this.user = user
     }
   }
+
 </script>
