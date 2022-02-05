@@ -22,7 +22,11 @@
 
     <div class="post_text">{{ post.text }}</div>
 
-    <image-block :images="post.images" :staticSrc="staticSrc"></image-block>
+    <image-block
+      :images="post.images"
+      :staticSrc="staticSrc"
+      @selectImageGroup="selectImages"
+    ></image-block>
   </div>
 </template>
 
@@ -40,6 +44,8 @@
       "staticSrc": { type: String, default: "/" },
       "post": { type: Object, default: {} },
     },
+
+    emits: [ 'deletePost', 'selectImageGroup' ],
 
     data(){
       return { dotMenuOpened: false }
@@ -63,6 +69,8 @@
 
       openDotMenu(){ this.dotMenuOpened = true },
       closeDotMenu(){ this.dotMenuOpened = false },
+
+      selectImages(images, start){ this.$emit('selectImageGroup', images, start) },
     }
   }
 </script>

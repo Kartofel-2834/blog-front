@@ -1,6 +1,16 @@
 <template>
   <div class="blog_hat"></div>
 
+  <fullscreen-images
+    :images="fullscreen.images"
+    :opened="fullscreen.isActive"
+    :index="fullscreen.index"
+
+    @open="fullscreenModeOn"
+    @close="fullscreenModeOff"
+    @setIndex="changeGaleryMainImage"
+  ></fullscreen-images>
+
   <div class="wrapper">
     <main-user-info v-if="user" :user="user" @postCreationFieldOpen="showPostCreationField"></main-user-info>
 
@@ -14,6 +24,7 @@
       :staticSrc="apiUrl"
 
       @deletePost="deletePost"
+      @selectImageGroup="selectImageGroup"
     ></post>
   </div>
 
@@ -39,6 +50,7 @@
 <script>
   import MainUserInfo from "@/components/UserInfo.vue"
   import PostBlock from "@/components/Post.vue"
+  import FullscreenImages from "@/components/FullscreenImages.vue"
 
   import PostCreationField from '@/components/PostCreationField.vue'
   import Alerter from "@/components/Alerter.vue"
@@ -70,7 +82,7 @@
     components: {
       "main-user-info": MainUserInfo,
       "post": PostBlock,
-
+      "fullscreen-images": FullscreenImages,
       "post-creation-field": PostCreationField,
       "alerter": Alerter,
     },
@@ -89,12 +101,11 @@
 
       selectImageGroup(images, start){
         this.fullscreen.images = images.map( i => `${ this.apiUrl }/post_images/${ i.filename }` )
+        this.fullscreenModeOn()
         this.changeGaleryMainImage(start)
       },
 
-      changeGaleryMainImage(index){
-        this.fullscreen.index = index
-      },
+      changeGaleryMainImage(index){ this.fullscreen.index = index },
 
       showPostCreationField(){ this.postCreationFieldHided = false },
       hidePostCreationField(){ this.postCreationFieldHided = true },
