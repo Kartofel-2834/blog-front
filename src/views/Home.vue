@@ -70,10 +70,13 @@
   export default {
     data(){
       return {
+        auth: null,
         alerterActive: false,
         alerterText: "",
 
         user: null,
+        currentUser: null,
+
         usertype: null,
         postCreationFieldHided: true,
         apiUrl: apiUrl,
@@ -150,7 +153,15 @@
       },
 
       async follow(){
-        alert("bebra")
+        if ( !this.auth || !this.auth.tagname || !this.auth.authkey ){ return }
+
+        let res = await jsonPostRequest(`${ apiUrl }/follow`, {
+          followerTag: this.auth.tagname,
+          followerAuthkey: this.auth.authkey,
+          blogId: this.user.id,
+        })
+
+        alert(res.status)
       }
     },
 
@@ -170,6 +181,7 @@
       }
 
       let res = null
+      this.auth = auth
 
       if( userTag == auth.tagname ){
         res = await jsonPostRequest(`${ apiUrl }/`, auth)
