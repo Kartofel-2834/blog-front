@@ -12,7 +12,13 @@
   ></fullscreen-images>
 
   <div class="wrapper">
-    <main-user-info v-if="user" :user="user" @postCreationFieldOpen="showPostCreationField"></main-user-info>
+    <main-user-info v-if="user"
+      :user="user"
+      :usertype="usertype"
+
+      @follow="follow"
+      @postCreationFieldOpen="showPostCreationField"
+    ></main-user-info>
 
     <post
       v-if="user && user.posts"
@@ -28,7 +34,7 @@
     ></post>
   </div>
 
-  <post-creation-field
+  <post-creation-field v-if="usertype == 'owner'"
     :userId="user && user.id ? user.id : null"
     :hided="postCreationFieldHided"
 
@@ -68,6 +74,7 @@
         alerterText: "",
 
         user: null,
+        usertype: null,
         postCreationFieldHided: true,
         apiUrl: apiUrl,
 
@@ -140,30 +147,50 @@
         this.user.posts.splice(index, 1)
 
         let res = await jsonBodyRequest(`${ apiUrl }/post`, "DELETE", { postId: id })
-        console.log(res)
+      },
+
+      async follow(){
+        alert("bebra")
       }
     },
 
     async created(){
+      const userTag = this.$route.params.tag
       let auth = {}
 
       if (window.localStorage) {
-        auth.authKey = window.localStorage.getItem('authKey')
+        auth.authkey = window.localStorage.getItem('authKey')
         auth.tagname = window.localStorage.getItem('tagname')
       }
 
       if ( Object.keys(auth).length != 2 ){
         this.$router.push("/signin"); return
+      } else if ( !userTag || userTag.length == 0 ) {
+        document.location.href = `/${ auth.tagname }`; return
       }
 
-      let res = await jsonPostRequest(`${ apiUrl }/`, auth)
-      let user = await res.json()
+      let res = null
 
-      if ( !user || Object.keys(user) == 0 ){
+      if( userTag == auth.tagname ){
+        res = await jsonPostRequest(`${ apiUrl }/`, auth)
+      } else {
+        res = await jsonPostRequest(`${ apiUrl }/`, { tagname: userTag })
+      }
+
+      if ( Math.floor(res.status/100) != 2 ){
         this.$router.push("/signin"); return
       }
 
-      this.user = user
+      let answer = await res.json()
+
+      if ( !answer.user || !answer.type ){
+        this.$router.push("/signin"); return
+      }
+
+      this.user = answer.user
+      this.usertype = answer.type
+      this.authkey = auth.authkey
+      console.log(answer)
     }
   }
 </script>

@@ -141,6 +141,7 @@
 
         let keys = 0
         for ( let key of newPost.keys() ){ keys++ }
+        if ( keys < 2 ){ return }
 
         let status = await this.$emit('createPost', newPost)
 

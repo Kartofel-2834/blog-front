@@ -21,7 +21,7 @@ body{
   margin: 6vw auto 0 auto;
 
   display: grid;
-  grid-template-columns: fit-content(100%);
+  grid-template-columns: 1fr;
   row-gap: 2rem;
 }
 

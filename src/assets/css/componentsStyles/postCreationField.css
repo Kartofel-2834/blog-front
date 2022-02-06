@@ -96,6 +96,8 @@
   display: flex;
   align-items: center;
   background-color: #ebebeb;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .no_scale{
@@ -107,8 +109,11 @@
   grid-template-rows: 1fr;
   grid-template-columns: 1fr;
 
-  width: 10vh;
-  height: 10vh;
+  min-width:10vh;
+  min-height: 10vh;
+  max-width:10vh;
+  max-height: 10vh;
+
   background-color: #1c1c1c;
   margin-left: 1rem;
   cursor: pointer;

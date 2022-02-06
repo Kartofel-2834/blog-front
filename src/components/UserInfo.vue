@@ -14,12 +14,24 @@
       </div>
 
       <div class="stat column align">
-        <div class="stat_num">0</div>
-        <div class="stat_name">follows</div>
+        <div class="stat_num">{{ user.follows }}</div>
+        <div class="stat_name">follow{{ user.follows == 1 ? '' : 's' }}</div>
       </div>
     </div>
 
-    <div class="button main_page_button" @click="$emit('postCreationFieldOpen')">New post</div>
+    <div v-if="usertype == 'owner'"
+      class="button main_page_button"
+      @click="$emit('postCreationFieldOpen')"
+    >
+      New post
+    </div>
+
+    <div v-else
+      class="button main_page_button"
+      @click="$emit('follow')"
+    >
+      Follow
+    </div>
   </div>
 </template>
 
@@ -27,8 +39,11 @@
 
 <script>
   export default {
-    props: { "user": { type: Object, default: {} } },
+    props: {
+      "user": { type: Object, default: {} },
+      "usertype": { type: String, default: "" }
+    },
 
-    emits: ['postCreationFieldOpen']
+    emits: [ 'postCreationFieldOpen', 'follow' ]
   }
 </script>

@@ -7,7 +7,7 @@ import SignIn from '@/views/SignIn.vue'
 import PasswordRecovery from '@/views/PasswordRecovery.vue'
 
 const routes = [
-  { path: '/', component: Home },
+  { path: '/:tag(.*)', component: Home },
 
   { path: '/registration', component: Registration },
 
