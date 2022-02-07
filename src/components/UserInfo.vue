@@ -9,13 +9,13 @@
 
     <div class="stat_row">
       <div class="stat column align">
-        <div class="stat_num">{{ user.followers }}</div>
-        <div class="stat_name">follower{{ user.followers == 1 ? '' : 's' }}</div>
+        <div class="stat_num">{{ user.followers.length }}</div>
+        <div class="stat_name">follower{{ user.followers.length == 1 ? '' : 's' }}</div>
       </div>
 
       <div class="stat column align">
-        <div class="stat_num">{{ user.follows }}</div>
-        <div class="stat_name">follow{{ user.follows == 1 ? '' : 's' }}</div>
+        <div class="stat_num">{{ user.follows.length }}</div>
+        <div class="stat_name">follow{{ user.follows.length == 1 ? '' : 's' }}</div>
       </div>
     </div>
 
@@ -28,9 +28,10 @@
 
     <div v-else
       class="button main_page_button"
-      @click="$emit('follow')"
+      @click="$emit(currentUserFollowed ? 'unfollow' : 'follow')"
+      :class="{ 'unfollow_button': currentUserFollowed }"
     >
-      Follow
+      {{ currentUserFollowed ? 'Unfollow' : 'Follow' }}
     </div>
   </div>
 </template>
@@ -40,10 +41,19 @@
 <script>
   export default {
     props: {
+      "currentUserTag": { type: String, default: "" },
       "user": { type: Object, default: {} },
       "usertype": { type: String, default: "" }
     },
 
-    emits: [ 'postCreationFieldOpen', 'follow' ]
+    emits: [ 'postCreationFieldOpen', 'follow', 'unfollow' ],
+
+    computed: {
+      currentUserFollowed(){
+        let followersTags = this.user.followers.map( f => f.follower_tag )
+
+        return followersTags.indexOf(this.currentUserTag) != -1
+      }
+    }
   }
 </script>

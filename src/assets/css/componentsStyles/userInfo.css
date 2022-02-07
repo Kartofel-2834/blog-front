@@ -52,6 +52,16 @@
   margin: 2rem auto;
 }
 
+.unfollow_button{
+  color: #6cd8e6;
+  background-color: white;
+}
+
+.unfollow_button:hover{
+  color: white;
+  background-color: #6cd8e6;
+}
+
 @media all and (max-width: 700px){
   .main_user_info, .stat_row{ font-size: 0.9rem }
 

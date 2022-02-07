@@ -13,10 +13,12 @@
 
   <div class="wrapper">
     <main-user-info v-if="user"
+      :currentUserTag="currentUser.tagname"
       :user="user"
       :usertype="usertype"
 
       @follow="follow"
+      @unfollow="unfollow"
       @postCreationFieldOpen="showPostCreationField"
     ></main-user-info>
 
@@ -156,53 +158,92 @@
         if ( !this.auth || !this.auth.tagname || !this.auth.authkey ){ return }
 
         let res = await jsonPostRequest(`${ apiUrl }/follow`, {
-          followerTag: this.auth.tagname,
+          followerTag: this.currentUser.tagname,
           followerAuthkey: this.auth.authkey,
           blogId: this.user.id,
         })
 
-        alert(res.status)
-      }
+        if( Math.floor(res.status / 100) != 2 ){
+          this.customAlert("Error. Not followed"); return
+        }
+
+        this.customAlert("Follow success")
+
+        let followedUser = await res.json()
+
+        this.user.followers.push(followedUser)
+      },
+
+      async unfollow(){
+        if ( !this.auth || !this.auth.tagname || !this.auth.authkey ){ return }
+
+        let res = await jsonBodyRequest(`${ apiUrl }/follow`, "DELETE", {
+          followerTag: this.currentUser.tagname,
+          blogId: this.user.id,
+        })
+
+        if( Math.floor(res.status / 100) != 2 ){
+          let err = await res.text()
+          this.customAlert(err); return
+        }
+
+        this.customAlert("Unfollowed")
+
+        let followers = this.user.followers
+        let followerIndex = followers.map( f => f.follower_tag ).indexOf(this.currentUser.tagname)
+
+        followers.splice(followerIndex, 1)
+      },
     },
 
     async created(){
       const userTag = this.$route.params.tag
-      let auth = {}
 
-      if (window.localStorage) {
-        auth.authkey = window.localStorage.getItem('authKey')
-        auth.tagname = window.localStorage.getItem('tagname')
+      let auth = {
+        authkey: window.localStorage.getItem('authKey'),
+        tagname: window.localStorage.getItem('tagname')
       }
 
-      if ( Object.keys(auth).length != 2 ){
-        this.$router.push("/signin"); return
-      } else if ( !userTag || userTag.length == 0 ) {
-        document.location.href = `/${ auth.tagname }`; return
-      }
+      if ( !auth.authkey || !auth.tagname ){ this.$router.push("/signin"); return }
 
-      let res = null
       this.auth = auth
 
-      if( userTag == auth.tagname ){
-        res = await jsonPostRequest(`${ apiUrl }/`, auth)
+      if ( !userTag || userTag.length == 0 ){ document.location.href = `/${ auth.tagname }` }
+
+      let res = await jsonPostRequest(`${ apiUrl }/`, auth)
+
+      if ( Math.floor(res.status / 100) == 2 ){
+        res = await res.json()
       } else {
-        res = await jsonPostRequest(`${ apiUrl }/`, { tagname: userTag })
-      }
-
-      if ( Math.floor(res.status/100) != 2 ){
         this.$router.push("/signin"); return
       }
 
-      let answer = await res.json()
+      if ( res.type && res.type == 'owner' ){
+        this.currentUser = res.user && res.user.id ? res.user : null
 
-      if ( !answer.user || !answer.type ){
+        if ( this.currentUser && res.user.tagname == userTag ){
+          this.user = res.user
+          this.usertype = 'owner'
+          return
+        }
+      } else {
         this.$router.push("/signin"); return
       }
 
-      this.user = answer.user
-      this.usertype = answer.type
-      this.authkey = auth.authkey
-      console.log(answer)
+      res = await jsonPostRequest(`${ apiUrl }/`, { tagname: userTag })
+
+      if ( Math.floor(res.status / 100) == 2 ){
+        res = await res.json()
+      } else {
+        this.$router.push("/signin"); return
+      }
+
+      if ( res.user && res.user.id ){
+        this.user = res.user
+        this.usertype = res.type
+      } else {
+        this.customAlert("Oops! Something went wrong. We can't get this user")
+      }
     }
   }
 </script>
