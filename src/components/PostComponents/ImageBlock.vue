@@ -1,11 +1,11 @@
 <template>
-  <div v-if="images && images.length == 1" class="post_image_block_1">
+  <div v-if="images && images.length == 1" class="post_image_block post_image_block_1">
     <div class="post_image_inner" @click="selectImages(0)">
       <img :src="staticSrc + '/post_images/' + images[0].filename" class="post_image">
     </div>
   </div>
 
-  <div v-if="images && images.length == 2" class="post_image_block_2">
+  <div v-if="images && images.length == 2" class="post_image_block post_image_block_2">
     <div class="post_image_inner" @click="selectImages(0)">
       <img :src="staticSrc + '/post_images/' + images[0].filename" class="post_image">
     </div>
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div v-if="images && images.length == 3" class="post_image_block_3">
+  <div v-if="images && images.length == 3" class="post_image_block post_image_block_3">
     <div class="post_image_inner one_of_three" @click="selectImages(0)">
       <img :src="staticSrc + '/post_images/' + images[0].filename" class="post_image">
     </div>
@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  <div v-if="images && images.length >= 4" class="post_image_block_4">
+  <div v-if="images && images.length >= 4" class="post_image_block post_image_block_4">
     <div class="post_image_inner one_of_four" @click="selectImages(0)">
       <img :src="staticSrc + '/post_images/' + images[0].filename" class="post_image">
     </div>

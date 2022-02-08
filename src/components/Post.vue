@@ -14,6 +14,8 @@
 
       <buble-menu
         :opened="dotMenuOpened"
+        :usertype="usertype"
+
         @open="openDotMenu"
         @close="closeDotMenu"
         @deletePost="$emit('deletePost', post.id)"
@@ -22,23 +24,30 @@
 
     <div class="post_text">{{ post.text }}</div>
 
-    <image-block
+    <big-image-block
       :images="post.images"
       :staticSrc="staticSrc"
       @selectImageGroup="selectImages"
-    ></image-block>
+    ></big-image-block>
+
+    <small-image-block
+      :images="post.images"
+      :staticSrc="staticSrc"
+    ></small-image-block>
   </div>
 </template>
 
 <style src="@/assets/css/componentsStyles/postBlock.css"></style>
 
 <script type="text/javascript">
+  import SmallImageBlock from "@/components/PostComponents/ImageBlockSmall.vue"
   import ImageBlock from "@/components/PostComponents/ImageBlock.vue"
   import GoneTimeParser from "@/components/PostComponents/GoneTimeParser.vue"
   import BubleMenu from "@/components/PostComponents/BubleMenu.vue"
 
   export default {
     props: {
+      "usertype": { type: String, default: "" },
       "userName": { type: String, default: "" },
       "userSurname": { type: String, default: "" },
       "staticSrc": { type: String, default: "/" },
@@ -52,7 +61,8 @@
     },
 
     components: {
-      "image-block": ImageBlock,
+      "small-image-block": SmallImageBlock,
+      "big-image-block": ImageBlock,
       "publication-date": GoneTimeParser,
       "buble-menu": BubleMenu
     },

@@ -30,6 +30,7 @@
       :userName="user.name"
       :userSurname="user.surname"
       :staticSrc="apiUrl"
+      :usertype="usertype"
 
       @deletePost="deletePost"
       @selectImageGroup="selectImageGroup"

@@ -10,6 +10,7 @@
 
     <div class="buble_menu" :class="{ 'buble_menu_opened': opened }" id="bubleMenu">
       <buble-menu-element
+        v-if="usertype == 'owner'"
         :cssClasses="['delete_post_button']"
         :hoverIconClasses="['delete_icon_active']"
         @click="$emit('deletePost')"
@@ -24,7 +25,10 @@
   import BubleMenuElement from "./BubleMenuElement.vue"
 
   export default {
-    props: { "opened": { type: Boolean, default: false } },
+    props: {
+       "opened": { type: Boolean, default: false },
+       "usertype": { type: String, default: "" },
+     },
 
     components: { "buble-menu-element": BubleMenuElement },
 
