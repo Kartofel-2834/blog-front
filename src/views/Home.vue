@@ -43,7 +43,8 @@
   </div>
 
   <post-creation-field v-if="usertype == 'owner'"
-    :userId="user && user.id ? user.id : null"
+    :authkey="currentUser && currentUser.authkey ? currentUser.authkey : null"
+    :userId="currentUser && currentUser.id ? currentUser.id : null"
     :hided="postCreationFieldHided"
 
     @createPost="createPost"
@@ -136,7 +137,9 @@
 
           if (!createdPost || !createdPost.created){ return }
 
-          this.user.posts.unshift(createdPost.created)
+          console.log(createdPost)
+
+          this.currentUser.posts.unshift(createdPost.created)
 
           this.customAlert("Post created")
           this.hidePostCreationField()
@@ -157,7 +160,11 @@
 
         this.user.posts.splice(index, 1)
 
-        let res = await jsonBodyRequest(`${ apiUrl }/post`, "DELETE", { postId: id })
+        let res = await jsonBodyRequest(`${ apiUrl }/post`, "DELETE", {
+          postId: id,
+          userId: this.currentUser.id,
+          authkey: this.currentUser.authkey
+        })
       },
 
       async follow(){
@@ -290,6 +297,7 @@
       } else {
         this.customAlert("Oops! Something went wrong. We can't get this user")
       }
+
     }
   }
 </script>

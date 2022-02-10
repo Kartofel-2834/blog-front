@@ -68,6 +68,7 @@
 
   export default {
     props: {
+      "authkey": { type: String, default: "" },
       "userId": { type: Number, default: null },
       "hided": { type: Boolean, default: true },
     },
@@ -130,6 +131,7 @@
         const text = this.postText
 
         newPost.append("owner_id", this.userId)
+        newPost.append("authkey", this.authkey)
 
         if ( typeof text == "string" && text.length > 0  && text.length < 5000 ){
           newPost.append("text", text)
@@ -143,7 +145,9 @@
         for ( let key of newPost.keys() ){ keys++ }
         if ( keys < 2 ){ return }
 
+        //console.log({ post: newPost, authkey: this.authkey })
         let status = await this.$emit('createPost', newPost)
+
 
         this.postText = ""
         this.files = []
