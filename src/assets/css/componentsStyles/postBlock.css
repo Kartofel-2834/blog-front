@@ -49,6 +49,49 @@
 
 .post_text{ font-size: 1em }
 
+.post_bottom_nav{
+  font-size: inherit;
+}
+
+.post_bottom_button{
+  display: flex;
+  align-items: center;
+  font-size: inherit;
+  user-select: none;
+
+  background-color: #ededed;
+  width: fit-content;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.15s linear;
+}
+
+.post_bottom_button:active{
+  transform: scale(0.9);
+  background-color: #f4f4f4;
+}
+
+.post_bottom_button::before{
+  content: '';
+  margin-right: 10px;
+}
+
+
+.like_button{ background-color: #f4f4f4 }
+
+.like_button_active{ background-color: #ededed }
+
+.like_button::before{
+  width: 1.5em;
+  height: 1.5em;
+  background: no-repeat center/100%;
+  background-image: url("~@/assets/icons/like_empty.svg");
+}
+
+.like_button_active::before{
+  background-image: url("~@/assets/icons/like.svg");
+}
 
 @media all and (max-width: 700px){
   .post_block{

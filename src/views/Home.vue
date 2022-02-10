@@ -27,11 +27,16 @@
       v-for="post in user.posts"
       :post="post"
       :key="post.id"
+      :staticSrc="apiUrl"
+      :currentUserTag="currentUser.tagname"
+
+      :usertype="usertype"
+      :userId="user.id"
       :userName="user.name"
       :userSurname="user.surname"
-      :staticSrc="apiUrl"
-      :usertype="usertype"
 
+      @like="likePost"
+      @dislike="dislikePost"
       @deletePost="deletePost"
       @selectImageGroup="selectImageGroup"
     ></post>
@@ -195,6 +200,46 @@
 
         followers.splice(followerIndex, 1)
       },
+
+      async likePost(postId){
+        if ( !postId ){ return }
+
+        let res = await jsonPostRequest(`${ apiUrl }/like`, {
+          userTag: this.currentUser.tagname,
+          ownerTag: this.user.tagname,
+          authkey: this.currentUser.authkey,
+          postId: postId,
+        })
+
+        if ( Math.floor(res.status / 100) != 2 ){
+          this.customAlert( await res.text() ); return
+        }
+
+        let like = await res.json()
+        let postIndex = this.user.posts.map( p => p.id ).indexOf(postId)
+
+        this.user.posts[postIndex].likes.push(like)
+      },
+
+      async dislikePost(postId){
+        if ( !postId ){ return }
+
+        let res = await jsonBodyRequest(`${ apiUrl }/like`, "DELETE", {
+          userTag: this.currentUser.tagname,
+          authkey: this.currentUser.authkey,
+          postId: postId,
+        })
+
+        if ( Math.floor(res.status / 100) != 2 ){
+          this.customAlert( await res.text() ); return
+        }
+
+        let postIndex = this.user.posts.map( p => p.id ).indexOf(postId)
+        let usersLikedPost = this.user.posts[postIndex].likes.map( l => l.user_tag )
+        let likeIndex = usersLikedPost.indexOf(this.currentUser.tagname)
+
+        this.user.posts[postIndex].likes.splice(likeIndex, 1)
+      }
     },
 
     async created(){

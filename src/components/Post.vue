@@ -34,6 +34,16 @@
       :images="post.images"
       :staticSrc="staticSrc"
     ></small-image-block>
+
+    <div class="post_bottom_nav">
+      <div
+        class="post_bottom_button like_button"
+        :class="{ 'like_button_active': postLikedCheck }"
+        @click="$emit( postLiked ? 'dislike' : 'like', post.id)"
+      >
+        {{ post.likes.length }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,14 +60,19 @@
       "usertype": { type: String, default: "" },
       "userName": { type: String, default: "" },
       "userSurname": { type: String, default: "" },
+
+      "currentUserTag": { type: String, default: "" },
       "staticSrc": { type: String, default: "/" },
       "post": { type: Object, default: {} },
     },
 
-    emits: [ 'deletePost', 'selectImageGroup' ],
+    emits: [ 'deletePost', 'selectImageGroup', 'like', 'dislike' ],
 
     data(){
-      return { dotMenuOpened: false }
+      return {
+        dotMenuOpened: false,
+        postLiked: false,
+      }
     },
 
     components: {
@@ -81,6 +96,16 @@
       closeDotMenu(){ this.dotMenuOpened = false },
 
       selectImages(images, start){ this.$emit('selectImageGroup', images, start) },
-    }
+    },
+
+    computed: {
+      postLikedCheck(){
+        let likedUsersTags = this.post.likes.map( l => l.user_tag )
+
+        this.postLiked = likedUsersTags.indexOf(this.currentUserTag) != -1
+
+        return this.postLiked
+      },
+    },
   }
 </script>
