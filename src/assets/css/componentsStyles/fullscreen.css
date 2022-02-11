@@ -1,0 +1,128 @@
+.single_image{
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  margin: auto;
+}
+
+.image_fullscreen_window{
+  display: grid;
+  grid-template-rows: auto fit-content(20vh);
+
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(0,0,0,0.5);
+  z-index: 100;
+
+  transition: 0.15s linear;
+}
+
+.fullscreen_image_main_part{
+  display: grid;
+  grid-template-columns: fit-content(10vw) auto fit-content(10vw);
+  grid-template-rows: 1fr;
+}
+
+.fullscreen_main_image_inner{
+  display: flex;
+  justify-content: center;
+}
+
+.fullscreen_main_image{
+  width: auto;
+  height: auto;
+  margin: auto;
+
+  max-width: 80vw;
+  max-height: 80vh;
+}
+
+.arrow_button{
+  margin: auto;
+  cursor: pointer;
+  width: 5rem;
+  height: 90%;
+  background: no-repeat center/25%;
+  background-image: url("~@/assets/icons/arrow.svg");
+  transition: 0.15s linear;
+}
+
+.arrow_button:hover{
+  background-color: #ffffff3b;
+}
+
+.arrow_button:active{
+  background-color: #ffffff66;
+}
+
+.arrow_button:hover{
+  background-color:
+}
+
+.arrow_button:last-child{
+  transform: rotate(180deg);
+}
+
+.fullscreen_images_roll{
+  display: flex;
+  width: fit-content;
+  max-width: 90vw;
+  margin: auto;
+
+  background-color: #dbdbdb;
+  padding: 0.5rem;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.fullscreen_images_roll::-webkit-scrollbar{
+  width: 8px;
+  height: 8px;
+}
+
+.small_nav_image_inner{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+
+  max-width: 3.5rem;
+  max-height: 3.5rem;
+
+  margin-left: 0.5rem;
+
+  background-color: #1c1c1c;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  transition: 0.15s linear;
+}
+
+.small_nav_image_inner:first-child{ margin-left: 0 }
+
+.small_nav_image{
+  width: auto;
+  height: 100%;
+  user-select: none;
+}
+
+.active_fullscreen_image{
+  transform: scale(1.1);
+}
+
+@media all and (max-width: 950px) {
+  .image_fullscreen_window{ display: none }
+}
+
+@media all and (max-width: 1400px) {
+  .fullscreen_main_image{
+    max-width: 70vw;
+    max-height: 70vh;
+  }
+}

@@ -1,11 +1,15 @@
 <template>
-  <div class="mobile_images_inner">
+  <div class="mobile_images_inner" v-if="images.length > 0">
     <div class="passive_image mobile_image_inner" v-if="images.length > 1">
       <img :src="passiveImageSrc" class="mobile_image">
     </div>
 
     <div class="image_scroll_buttons_inner" :class="Array.from(firstImageClasses)">
       <div class="image_scroll_part" @click="scrollImage('left')"></div>
+
+      <div class="mobile_post_like_part" @click="doubleClickLikePost">
+        <div class="mobile_post_like" :class="Array.from(likeClasses)"></div>
+      </div>
 
       <div class="mobile_image_inner scroll_inner_image">
         <img :src="firstImageSrc" class="mobile_image">
@@ -17,8 +21,15 @@
     <div class="mobile_image_inner" :class="Array.from(secondImageClasses)" v-if="images.length > 1">
       <img :src="secondImageSrc" class="mobile_image">
     </div>
-  </div>
 
+    <div class="image_count_bubles_inner" v-if="images.length > 1" :id=" 'bubles#' + postId">
+      <div v-for="i in images.length"
+        class="image_count_buble"
+        :class="{ 'image_count_buble_active': index+1 == i }"
+        @click="changeIndex(i-1)"
+      ></div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -31,6 +42,14 @@
   }
 
   export default {
+    props: {
+      "postId": { type: Number, default: 0 },
+      "images": { type: Array, default: [] },
+      "staticSrc": { type: String, default: "" },
+    },
+
+    emits: [ 'like' ],
+
     data(){
       return {
         index: 0,
@@ -45,15 +64,44 @@
 
         firstImageClasses: new Set(["transition_on"]),
         secondImageClasses: new Set(["translate_right"]),
+        likeClasses: new Set(),
+
+        centralImagePartClicks: 0,
+        bubleInnerScroll: 0,
       }
     },
 
-    props: {
-      "images": { type: Array, default: [] },
-      "staticSrc": { type: String, default: "" },
-    },
-
     methods: {
+      changeIndex(i){
+        this.index = i
+        this.firstImageSrc = this.imageSrc(i)
+      },
+
+      scrollBubleInner(indexSwapStep){
+        if ( this.images.length <= 10 ){ return }
+
+        let bubleInner = document.getElementById(`bubles#${ this.postId }`)
+
+        this.bubleInnerScroll += indexSwapStep > 0 ? 13 : -13
+
+        bubleInner.scroll(this.bubleInnerScroll, 0)
+      },
+
+      doubleClickLikePost(){
+        this.centralImagePartClicks++
+
+        if ( this.centralImagePartClicks != 2 ){ return }
+
+        this.$emit('like')
+
+        this.likeClasses.add("mobile_like_animation")
+
+        timeout(()=>{
+          this.centralImagePartClicks = 0
+          this.likeClasses.delete("mobile_like_animation")
+        }, 1600)
+      },
+
       imageSrc(index){
         if ( index > this.images.length - 1 || index < 0 ){ return null }
 
@@ -88,6 +136,7 @@
         }, 100)
 
         this.index += indexSwapStep
+        this.scrollBubleInner(indexSwapStep)
 
         if ( dirRight ){
           first.add("translate_left")
@@ -101,7 +150,7 @@
           this.firstImageSrc = this.imageSrc(this.index)
           first.delete("transition_on")
           second.delete("transition_on")
-        }, 600)
+        }, 500)
 
         if ( dirRight ){
           first.delete("translate_left")

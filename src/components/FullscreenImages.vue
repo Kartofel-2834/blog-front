@@ -29,6 +29,8 @@
   </div>
 </template>
 
+<style src="@/assets/css/componentsStyles/fullscreen.css"></style>
+
 <script>
   export default {
     props: {

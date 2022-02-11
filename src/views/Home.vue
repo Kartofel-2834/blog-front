@@ -211,6 +211,13 @@
       async likePost(postId){
         if ( !postId ){ return }
 
+        let postIndex = this.user.posts.map( p => p.id ).indexOf(postId)
+
+        let liked = this.user.posts[postIndex].likes.map( l => l.user_tag )
+        liked = liked.indexOf(this.currentUser.tagname) != -1
+
+        if ( liked ){ return }
+
         let res = await jsonPostRequest(`${ apiUrl }/like`, {
           userTag: this.currentUser.tagname,
           ownerTag: this.user.tagname,
@@ -223,7 +230,6 @@
         }
 
         let like = await res.json()
-        let postIndex = this.user.posts.map( p => p.id ).indexOf(postId)
 
         this.user.posts[postIndex].likes.push(like)
       },

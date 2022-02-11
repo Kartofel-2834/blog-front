@@ -75,6 +75,7 @@
 }
 
 .hover_file_name{
+  max-width: 95vw;
   margin: auto;
   font-size: 0.8em;
   text-align: center;
@@ -228,8 +229,10 @@
   }
 
   .cliped_file{
-    width: 7vh;
-    height: 7vh;
+    min-width: 7vh;
+    min-height: 7vh;
+    max-width: 7vh;
+    max-height: 7vh;
     margin-left: 0.5rem;
   }
 

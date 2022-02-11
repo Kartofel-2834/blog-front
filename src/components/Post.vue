@@ -31,8 +31,11 @@
     ></big-image-block>
 
     <small-image-block
+      :postId="post.id"
       :images="post.images"
       :staticSrc="staticSrc"
+
+      @like="$emit('like', post.id)"
     ></small-image-block>
 
     <div class="post_bottom_nav">
