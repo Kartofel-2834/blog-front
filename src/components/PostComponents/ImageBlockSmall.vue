@@ -75,6 +75,10 @@
       changeIndex(i){
         this.index = i
         this.firstImageSrc = this.imageSrc(i)
+
+        if ( this.images.length <= 10 ){
+          this.bubleInnerScroll = 13 * (this.index + 1)
+        }
       },
 
       scrollBubleInner(indexSwapStep){
@@ -99,7 +103,7 @@
         timeout(()=>{
           this.centralImagePartClicks = 0
           this.likeClasses.delete("mobile_like_animation")
-        }, 1600)
+        }, 1100)
       },
 
       imageSrc(index){

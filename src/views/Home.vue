@@ -1,6 +1,11 @@
 <template>
   <div class="blog_hat"></div>
 
+  <main-menu
+    v-if="currentUser"
+    :user="currentUser"
+  ></main-menu>
+
   <fullscreen-images
     :images="fullscreen.images"
     :opened="fullscreen.isActive"
@@ -63,6 +68,7 @@
 <style src="@/assets/css/home.css"></style>
 
 <script>
+  import MainMenu from "@/components/MainMenu.vue"
   import MainUserInfo from "@/components/UserInfo.vue"
   import PostBlock from "@/components/Post.vue"
   import FullscreenImages from "@/components/FullscreenImages.vue"
@@ -99,6 +105,7 @@
     },
 
     components: {
+      "main-menu": MainMenu,
       "main-user-info": MainUserInfo,
       "post": PostBlock,
       "fullscreen-images": FullscreenImages,
