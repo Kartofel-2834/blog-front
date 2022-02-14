@@ -4,6 +4,8 @@
   <main-menu
     v-if="currentUser"
     :user="currentUser"
+
+    @exit="exitAccount"
   ></main-menu>
 
   <fullscreen-images
@@ -80,6 +82,7 @@
 
   const jsonPostRequest = Helpers.jsonPostRequest
   const jsonBodyRequest = Helpers.jsonBodyRequest
+  const getCurrentAndPageUsers = Helpers.getCurrentAndPageUsers
   const apiUrl = Helpers.apiUrl
 
   export default {
@@ -259,58 +262,53 @@
         let likeIndex = usersLikedPost.indexOf(this.currentUser.tagname)
 
         this.user.posts[postIndex].likes.splice(likeIndex, 1)
+      },
+
+      async exitAccount(){
+        let res = await jsonPostRequest(`${ apiUrl }/exitAccount`, {
+          id: this.currentUser.id,
+          tagname: this.currentUser.tagname,
+          authkey: this.currentUser.authkey,
+        })
+
+        if ( Math.floor(res.status / 100) == 2 ){
+          this.$router.push("/signin"); return
+        }
+
+        this.customAlert( await res.text() )
       }
     },
 
     async created(){
       const userTag = this.$route.params.tag
 
-      let auth = {
+      const auth = {
         authkey: window.localStorage.getItem('authKey'),
         tagname: window.localStorage.getItem('tagname')
       }
 
-      if ( !auth.authkey || !auth.tagname ){ this.$router.push("/signin"); return }
+      let answer = await getCurrentAndPageUsers(auth, userTag, this.apiUrl)
 
-      this.auth = auth
-
-      if ( !userTag || userTag.length == 0 ){ document.location.href = `/${ auth.tagname }` }
-
-      let res = await jsonPostRequest(`${ apiUrl }/`, auth)
-
-      if ( Math.floor(res.status / 100) == 2 ){
-        res = await res.json()
-      } else {
-        this.$router.push("/signin"); return
+      if ( !answer.err.exist ){
+        this.currentUser = answer.currentUser
+        this.user = answer.user
+        this.usertype = answer.usertype
+        return
       }
 
-      if ( res.type && res.type == 'owner' ){
-        this.currentUser = res.user && res.user.id ? res.user : null
+      let err = answer.err.solution
+      let command = err.slice(0, err.indexOf("-"))
+      let commandData = err.slice(err.indexOf("-") + 1, err.length)
 
-        if ( this.currentUser && res.user.tagname == userTag ){
-          this.user = res.user
-          this.usertype = 'owner'
-          return
-        }
-      } else {
-        this.$router.push("/signin"); return
+      switch (command) {
+        case "redirect":
+          this.$router.push(commandData)
+        break
+
+        case "alert":
+          this.customAlert(commandData)
+        break
       }
-
-      res = await jsonPostRequest(`${ apiUrl }/`, { tagname: userTag })
-
-      if ( Math.floor(res.status / 100) == 2 ){
-        res = await res.json()
-      } else {
-        this.$router.push("/signin"); return
-      }
-
-      if ( res.user && res.user.id ){
-        this.user = res.user
-        this.usertype = res.type
-      } else {
-        this.customAlert("Oops! Something went wrong. We can't get this user")
-      }
-
     }
   }
 </script>

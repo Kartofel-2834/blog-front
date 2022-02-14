@@ -14,20 +14,24 @@
         <div class="main_menu_user_name">{{ user.name }} {{ user.surname }}</div>
       </div>
 
-      <div class="main_menu_element">
-        <div class="main_menu_element_text">Мой профиль</div>
+      <div class="main_menu_element" @click="userPageLink">
+        <div class="main_menu_element_text">My blog</div>
       </div>
 
       <div class="main_menu_element">
-        <div class="main_menu_element_text">Уведомления</div>
+        <div class="main_menu_element_text">Notifications</div>
       </div>
 
       <div class="main_menu_element">
-        <div class="main_menu_element_text">Поиск</div>
+        <div class="main_menu_element_text">Search</div>
       </div>
 
       <div class="main_menu_element">
-        <div class="main_menu_element_text">Настройки</div>
+        <div class="main_menu_element_text">Settings</div>
+      </div>
+
+      <div class="main_menu_element" @click="$emit('exit')">
+        <div class="main_menu_element_text">Exit</div>
       </div>
     </div>
 
@@ -42,6 +46,8 @@
     props: {
       "user": { type: Object, default: {} },
     },
+
+    emits: [ 'exit' ],
 
     data(){
       return {
