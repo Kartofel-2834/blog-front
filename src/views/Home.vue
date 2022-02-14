@@ -289,6 +289,8 @@
 
       let answer = await getCurrentAndPageUsers(auth, userTag, this.apiUrl)
 
+      console.log(answer)
+
       if ( !answer.err.exist ){
         this.currentUser = answer.currentUser
         this.user = answer.user
@@ -301,13 +303,11 @@
       let commandData = err.slice(err.indexOf("-") + 1, err.length)
 
       switch (command) {
-        case "redirect":
-          this.$router.push(commandData)
-        break
+        case "strict_redirect": document.location.href = commandData; break;
 
-        case "alert":
-          this.customAlert(commandData)
-        break
+        case "redirect": this.$router.push(commandData); break
+
+        case "alert": this.customAlert(commandData); break
       }
     }
   }

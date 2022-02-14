@@ -26,7 +26,7 @@
         <div class="main_menu_element_text">Search</div>
       </div>
 
-      <div class="main_menu_element">
+      <div class="main_menu_element" @click="simpleLink('/settings')">
         <div class="main_menu_element_text">Settings</div>
       </div>
 
@@ -75,7 +75,9 @@
         this.openMainMenu()
       },
 
-      userPageLink(){ document.location.href = `/${ this.user.tagname }` }
+      userPageLink(){ document.location.href = `/${ this.user.tagname }` },
+
+      simpleLink(path){ this.$router.push(`/${ this.user.tagname }${ path }`) }
     },
 
     created(){

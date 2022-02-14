@@ -36,7 +36,7 @@ async function getCurrentAndPageUsers(authdata, urlTag, apiUrl){
   }
 
   if ( !urlTag || urlTag.length == 0 ){
-    return answer.throwErr(`redirect-/${ auth.tagname }`)
+    return answer.throwErr(`strict_redirect-/${ authdata.tagname }`)
   }
 
   let res = await jsonPostRequest(`${ apiUrl }/`, authdata)
