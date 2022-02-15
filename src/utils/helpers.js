@@ -1,3 +1,21 @@
+function wordCompare(a, b){
+  let one = a.toLowerCase()
+  let two = b.toLowerCase()
+
+  let iterations = one.length > two.length ? two.length : one.length
+  let charNum = (c)=>{ return c.toLowerCase().charCodeAt() }
+
+  if ( one == two ){ return -1 }
+
+  for ( let i=0; i < iterations; i++ ){
+    if ( charNum(one[i]) > charNum(two[i]) ){ return 0 }
+
+    if ( charNum(two[i]) > charNum(one[i]) ) { return 1 }
+  }
+
+  return -1
+}
+
 async function jsonPostRequest(url, data){
   return await jsonBodyRequest(url, "POST", data)
 }
@@ -83,5 +101,6 @@ export default {
   jsonPostRequest: jsonPostRequest,
   jsonBodyRequest: jsonBodyRequest,
   getCurrentAndPageUsers: getCurrentAndPageUsers,
+  wordCompare: wordCompare,
   apiUrl: "http://localhost:3000",
 }

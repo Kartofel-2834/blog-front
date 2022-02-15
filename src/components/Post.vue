@@ -58,6 +58,10 @@
   import GoneTimeParser from "@/components/PostComponents/GoneTimeParser.vue"
   import BubleMenu from "@/components/PostComponents/BubleMenu.vue"
 
+  import Helpers from "@/utils/helpers.js"
+
+  const wordCompare = Helpers.wordCompare
+
   export default {
     props: {
       "usertype": { type: String, default: "" },
@@ -67,6 +71,8 @@
       "currentUserTag": { type: String, default: "" },
       "staticSrc": { type: String, default: "/" },
       "post": { type: Object, default: {} },
+
+      "searchLike": { type: Function, default: ()=>{} },
     },
 
     emits: [ 'deletePost', 'selectImageGroup', 'like', 'dislike' ],
@@ -103,9 +109,9 @@
 
     computed: {
       postLikedCheck(){
-        let likedUsersTags = this.post.likes.map( l => l.user_tag )
+        let userLikeIndex = this.searchLike(this.post.likes, this.currentUserTag)
 
-        this.postLiked = likedUsersTags.indexOf(this.currentUserTag) != -1
+        this.postLiked = userLikeIndex != -1
 
         return this.postLiked
       },
