@@ -16,6 +16,52 @@ function wordCompare(a, b){
   return -1
 }
 
+function simpleBinarySearch(arr, num, key, start, end){
+  if ( arr.length == 0 || !num ){ return -1 }
+
+  let low = start ? start : 0
+  let high = end ? end : arr.length
+  let mid = low + Math.floor((high-low) / 2)
+
+  let midVal = arr[mid][key] ? arr[mid][key] : arr[mid]
+
+  if ( !midVal || low == high ){ return -1 }
+
+  if ( midVal == num ){ return mid }
+
+  if ( midVal > num ){
+    high = mid
+  } else {
+    low = mid + 1
+  }
+
+  return simpleBinarySearch(arr, num, key, low, high)
+}
+
+function binarySearch(arr, word, key, start, end){
+  if ( arr.length == 0 || word.length == 0 ){ return -1 }
+
+  let low = start ? start : 0
+  let high = end ? end : arr.length
+  let mid = low + Math.floor((high-low) / 2)
+
+  let midWord = arr[mid][key] ? arr[mid][key] : arr[mid]
+
+  if ( !midWord || low == high ){ return -1 }
+
+  let comparing = wordCompare(midWord, word)
+
+  if ( comparing == -1 ){ return mid }
+
+  if ( comparing == 0 ){
+    high = mid
+  } else if ( comparing == 1 ){
+    low = mid + 1
+  }
+
+  return binarySearch(arr, word, key, low, high)
+}
+
 async function jsonPostRequest(url, data){
   return await jsonBodyRequest(url, "POST", data)
 }
@@ -98,9 +144,12 @@ async function getCurrentAndPageUsers(authdata, urlTag, apiUrl){
 }
 
 export default {
+  wordCompare: wordCompare,
+  binarySearch: binarySearch,
+  simpleBinarySearch: simpleBinarySearch,
+
   jsonPostRequest: jsonPostRequest,
   jsonBodyRequest: jsonBodyRequest,
   getCurrentAndPageUsers: getCurrentAndPageUsers,
-  wordCompare: wordCompare,
   apiUrl: "http://localhost:3000",
 }

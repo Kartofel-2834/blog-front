@@ -42,7 +42,6 @@
       :userName="user.name"
       :userSurname="user.surname"
 
-      :searchLike="searchLikeByUserTag"
       @like="likePost"
       @dislike="dislikePost"
       @deletePost="deletePost"
@@ -84,7 +83,7 @@
   const jsonPostRequest = Helpers.jsonPostRequest
   const jsonBodyRequest = Helpers.jsonBodyRequest
   const getCurrentAndPageUsers = Helpers.getCurrentAndPageUsers
-  const wordCompare = Helpers.wordCompare
+  const binarySearch = Helpers.binarySearch
   const apiUrl = Helpers.apiUrl
 
   export default {
@@ -220,74 +219,15 @@
         followers.splice(followerIndex, 1)
       },
 
-      searchLikeByUserTag(likes, word, start, end){
-        if ( likes.length == 0 || word.length == 0 ){ return -1 }
-
-        let low = start ? start : 0
-        let high = end ? end : likes.length
-        let mid = low + Math.floor((high-low) / 2)
-
-        let userTag = likes[mid].user_tag
-
-        if ( !userTag || low == high ){ return -1 }
-
-        let comparing = wordCompare(userTag, word)
-
-        if ( comparing == -1 ){ return mid }
-
-        if ( comparing == 0 ){
-          high = mid
-        } else if ( comparing == 1 ){
-          low = mid + 1
-        }
-
-        return this.searchLikeByUserTag(likes, word, low, high)
-      },
-
-      sortLikes(likes){
-        let random = ()=>{ return Math.floor(Math.random() * (likes.length-1)) }
-
-        let sortDoubleArr = (arr)=>{
-          if ( wordCompare(likes[0].user_tag, likes[1].user_tag) == 0 ){
-            return [ arr[1], arr[0] ]
-          }
-
-          return arr
-        }
-
-        if ( likes.length <= 1 ){ return likes }
-        if ( likes.length == 2 ){ return sortDoubleArr(likes) }
-
-        let start = likes[random()]
-        let small = []
-        let big = []
-
-        for ( let i=1; i<likes.length; i++ ){
-          this.iter++
-          if ( wordCompare(likes[i].user_tag, start.user_tag) == 0 ){
-            big.push(likes[i])
-          } else {
-            small.push(likes[i])
-          }
-        }
-
-        small = this.sortLikes(small)
-        big = this.sortLikes(big)
-
-        small.push(start)
-
-        return small.concat(big)
-      },
-
       async likePost(postId){
         if ( !postId ){ return }
 
         let postIndex = this.user.posts.map( p => p.id ).indexOf(postId)
         let likes = this.user.posts[postIndex].likes
 
-        let liked = this.searchLikeByUserTag(likes, this.currentUser.tagname) != -1
+        let likeIndex = binarySearch(likes, this.currentUser.tagname, "user_tag")
 
-        if ( liked ){ return }
+        if ( likeIndex != -1 ){ return }
 
         let res = await jsonPostRequest(`${ apiUrl }/like`, {
           userTag: this.currentUser.tagname,
@@ -300,12 +240,11 @@
           this.customAlert( await res.text() ); return
         }
 
-        let like = await res.json()
+        let ans = await res.json()
 
-        this.iter = 0
-        this.user.posts[postIndex].likes.push(like)
-        this.user.posts[postIndex].likes = this.sortLikes(this.user.posts[postIndex].likes)
-        console.log(this.iter)
+        if ( !ans ){ return }
+
+        this.user.posts[postIndex].likes = ans
       },
 
       async dislikePost(postId){
@@ -321,9 +260,16 @@
           this.customAlert( await res.text() ); return
         }
 
-        let postIndex = this.user.posts.map( p => p.id ).indexOf(postId)
-        let usersLikedPost = this.user.posts[postIndex].likes.map( l => l.user_tag )
-        let likeIndex = usersLikedPost.indexOf(this.currentUser.tagname)
+        let postIndex = -1
+
+        for ( let p=0; p < this.user.posts.length; p++ ){
+          if ( this.user.posts[p].id == postId ){
+            postIndex = p; break
+          }
+        }
+
+        let likes = this.user.posts[postIndex].likes
+        let likeIndex = binarySearch(likes, this.currentUser.tagname, "user_tag")
 
         this.user.posts[postIndex].likes.splice(likeIndex, 1)
       },
@@ -352,8 +298,6 @@
       }
 
       let answer = await getCurrentAndPageUsers(auth, userTag, this.apiUrl)
-
-      console.log(answer)
 
       if ( !answer.err.exist ){
         this.currentUser = answer.currentUser

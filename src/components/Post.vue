@@ -60,7 +60,7 @@
 
   import Helpers from "@/utils/helpers.js"
 
-  const wordCompare = Helpers.wordCompare
+  const binarySearch = Helpers.binarySearch
 
   export default {
     props: {
@@ -71,8 +71,6 @@
       "currentUserTag": { type: String, default: "" },
       "staticSrc": { type: String, default: "/" },
       "post": { type: Object, default: {} },
-
-      "searchLike": { type: Function, default: ()=>{} },
     },
 
     emits: [ 'deletePost', 'selectImageGroup', 'like', 'dislike' ],
@@ -109,7 +107,7 @@
 
     computed: {
       postLikedCheck(){
-        let userLikeIndex = this.searchLike(this.post.likes, this.currentUserTag)
+        let userLikeIndex = binarySearch(this.post.likes, this.currentUserTag, "user_tag")
 
         this.postLiked = userLikeIndex != -1
 
