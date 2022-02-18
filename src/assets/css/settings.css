@@ -1,0 +1,218 @@
+.options_wrapper{
+  font-size: 1rem;
+
+  width: 70%;
+  height: fit-content;
+  margin: 3em auto;
+  background-color: white;
+  padding: 2em 4rem;
+
+  box-shadow: 0px 0px 10px 2px rgb(34 60 80 / 10%);
+  border-radius: 8px;
+}
+
+.options_header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: 1.6em;
+  font-weight: 600;
+  width: fit-content;
+  text-align: center;
+  margin: auto;
+}
+
+.options_header::after{
+  content: '';
+  width: 120%;
+  height: 3px;
+  margin-top: 0.2em;
+  background-color: #6cd8e6;
+}
+
+.options_top_part{
+  font-size: inherit;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  column-gap: 1em;
+  padding: 1em 0;
+}
+
+.options_user_info_inner{
+  margin: auto 0;
+  display: flex;
+  font-size: inherit;
+}
+
+.options_inner{
+  font-size: inherit;
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 1.5em;
+}
+
+
+.avatar_change_inner{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+  border-radius: 100%;
+  box-shadow: 0px 0px 0px 3px rgb(34 60 80 / 15%);
+}
+
+.avatar_change_inner::before{
+  content: '';
+  cursor: pointer;
+  opacity: 0;
+  z-index: 20;
+  background: no-repeat center/50%;
+  background-image: url("~@/assets/icons/camera.svg");
+  background-color: #1c1c1c82;
+  transition: 0.15s linear;
+}
+
+.avatar_change_inner:hover::before{ opacity: 1 }
+
+.avatar_change_inner::before, .options_avatar_inner{
+  grid-column: 1/1;
+  grid-row: 1/1;
+}
+
+
+.options_avatar_inner{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 8vw;
+  min-height: 8vw;
+  max-width: 8vw;
+  max-height: 8vw;
+
+  background: no-repeat center/60%;
+  background-image: url("~@/assets/icons/avatar.svg");
+  background-color: white;
+
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.options_user_info{
+  font-size: inherit;
+  display: flex;
+  flex-direction: column;
+  margin-left: 1em;
+}
+
+.options_user_name{
+  font-size: 1.2em;
+  font-weight: 500;
+  margin: 0.5em 0 0.5em 0;
+}
+
+.simple_text{ font-size: 0.9em }
+
+.post_watchers_selector_inner{
+  font-size: inherit;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.post_watchers_selector_title{ font-size: inherit }
+
+.post_watchers_selector, .post_watchers_selector_main_line{
+  cursor: pointer;
+  padding: 0.5em 0.8em;
+  background-color: white;
+  border: 1px solid #1c1c1c;
+  font-size: inherit;
+  transition: 0.15s linear;
+}
+
+.post_watchers_selector:hover, .post_watchers_selector_main_line:hover{
+  background-color: #f2f3f5;
+}
+
+.post_watchers_selector{
+  border-bottom: 0;
+  border-top: 0;
+}
+
+.post_watchers_selector:first-child{ border-top: 1px solid #1c1c1c }
+.post_watchers_selector:last-child{ border-bottom: 1px solid #1c1c1c }
+
+.post_watchers_selector_main_line{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1em 0;
+}
+
+.post_watchers_selector_main_line_title{ font-size: inherit }
+
+.post_watchers_selector_arrow{
+  font-size: inherit;
+  width: 1em;
+  height: 1em;
+  background: no-repeat center/50%;
+  transform: rotate(180deg);
+  background-image: url("~@/assets/icons/arrow_black.svg");
+  transition: 0.15s linear;
+}
+
+.post_watchers_selector_arrow_active{
+  transform: rotate(270deg);
+}
+
+.post_watchers_selector_menu{
+  font-size: inherit;
+  position: absolute;
+  min-width: 20%;
+  margin-top: 6em;
+  box-shadow: 0px 0px 10px 2px rgb(34 60 80 / 10%);
+  transition: 0.15s linear;
+  transform-origin: top;
+}
+
+.options_changers{
+  font-size: inherit;
+
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1em;
+  row-gap: 1em;
+  margin-top: 1.5em;
+}
+
+.options_input_inner{ font-size:  inherit }
+
+.options_input_label{
+  font-weight: 400;
+  color: #6d7885;
+  font-size: 1.1em;
+  margin: 0.5em 0;
+}
+
+.options_input{
+  background-color: #f2f3f5;
+  width: -webkit-fill-available;
+  font-size: 1em;
+  padding: 0.5em;
+  border: 2px solid #c7c7c7;
+  border-radius: 6px;
+  outline: none;
+  transition: 0.15s linear;
+}
+
+.options_input:focus{
+  border-color: #6cd8e6
+}
+
+
+.no_scale_y{ transform: scaleY(0) }

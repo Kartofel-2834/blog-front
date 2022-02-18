@@ -1,7 +1,8 @@
 .post_image_block_1{
   display: grid;
   grid-template-columns: minmax(100px, 1fr);
-  grid-template-rows: fit-content(90vh);
+  grid-template-rows: fit-content(150vh);
+  /*grid-template-rows: fit-content(90vh);*/
   justify-content: center;
   align-content: center;
 }

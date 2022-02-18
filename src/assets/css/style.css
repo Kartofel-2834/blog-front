@@ -93,7 +93,7 @@
   transform: scale(1.05);
 }
 
-.no_scale{ transform: scale(0) }
+.no_scale{ transform: scale(0) },
 
 .normal_scale{ transform: scale(1) }
 
